@@ -6,14 +6,14 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description"
-      content="Wings Junior School - Excellence in Education with Mindful Curriculum and Small Class Sizes">
+      content="Wings Junior School - BUILDING BRAINS & CHARACTER with Mindful Curriculum and Small Class Sizes">
    <meta name="keywords" content="junior school, education, mindful curriculum, small classes, Uganda">
 
    <!-- Favicons -->
    <link rel="shortcut icon" type="image/x-icon" href="assets/img/team/badge.png" />
 
    <!-- Page Title -->
-   <title>WINGS JUNIOR SCHOOL - Excellence in Education</title>
+   <title>WINGS JUNIOR SCHOOL - BUILDING BRAINS & CHARACTER</title>
 
    <!-- Tailwind CSS -->
    <script src="https://cdn.tailwindcss.com"></script>
@@ -43,6 +43,10 @@
 
    <!-- Font Awesome Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- Leaflet CSS for OpenStreetMap -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
    <!-- Custom CSS -->
    <style>
@@ -121,6 +125,28 @@
       #prev-slide:hover,
       #next-slide:hover {
          transform: translateY(-50%) scale(1.1);
+      }
+
+      /* Homepage map styles */
+      #homepage-map {
+         min-height: 320px;
+         background: #f8fafc;
+         position: relative;
+      }
+
+      #homepage-map::before {
+         content: 'Loading map...';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: #6b7280;
+         font-size: 14px;
+         z-index: 1;
+      }
+
+      #homepage-map.leaflet-container::before {
+         display: none;
       }
    </style>
 </head>
@@ -214,6 +240,8 @@
                      Us</a>
                   <a href="pages/gallery.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Gallery</a>
+                  <a href="pages/culture.html"
+                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Culture</a>
                   <a href="pages/admission.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Admission</a>
                   <a href="pages/contact.html"
@@ -237,6 +265,7 @@
                   <a href="index.html" class="block px-3 py-2 text-primary font-medium">Home</a>
                   <a href="pages/about.html" class="block px-3 py-2 text-gray-600 hover:text-primary">About Us</a>
                   <a href="pages/gallery.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Gallery</a>
+                  <a href="pages/culture.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Culture</a>
                   <a href="pages/admission.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Admission</a>
                   <a href="pages/contact.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Contact</a>
                </div>
@@ -297,6 +326,18 @@
             </div>
             <div class="slide">
                <img src="assets/img/team/WhatsApp Image 2024-12-12 at 16.01.43_6b1289b1.jpg" alt="Students Learning"
+                  class="w-full h-full object-cover opacity-20">
+            </div>
+            <div class="slide">
+               <img src="assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event"
+                  class="w-full h-full object-cover opacity-20">
+            </div>
+            <div class="slide">
+               <img src="assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                  class="w-full h-full object-cover opacity-20">
+            </div>
+            <div class="slide">
+               <img src="assets/IMG-20250827-WA0012.jpg" alt="Cultural Day Banner"
                   class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
@@ -534,6 +575,173 @@
       </div>
    </section>
 
+   <!-- Cultural Heritage Section -->
+   <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+         <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-dark mb-6">Celebrating Our Cultural Heritage
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">At Wings Junior School, we take pride in celebrating and
+               preserving our rich cultural traditions. Our Cultural Day events bring together students, families, and
+               the community to honor our heritage and create lasting memories.</p>
+         </div>
+
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            <div class="relative">
+               <img src="assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Family Celebration"
+                  class="rounded-2xl shadow-2xl">
+               <div class="absolute -bottom-6 -right-6 bg-primary rounded-2xl shadow-lg p-6 text-white">
+                  <div class="text-center">
+                     <div class="text-3xl font-bold">Cultural Day</div>
+                     <div class="text-sm opacity-90">Annual Celebration</div>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Building Cultural Pride</h3>
+               <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                  Our Cultural Day celebrations showcase the diverse traditions, music, dance, and attire that make our
+                  community unique. Students learn to appreciate their heritage while developing confidence and
+                  presentation skills.
+               </p>
+               <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-star text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Traditional attire and cultural displays</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-music text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Music, dance, and cultural performances</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-users text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Community involvement and family participation</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Cultural Images Grid -->
+         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="group cursor-pointer">
+               <div class="relative overflow-hidden rounded-2xl shadow-lg">
+                  <img src="assets/IMG-20250827-WA0012.jpg" alt="Students in Traditional Attire"
+                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                  <div
+                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                     <div
+                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                        <i class="fas fa-eye text-3xl mb-2"></i>
+                        <p class="font-semibold">Traditional Attire</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="group cursor-pointer">
+               <div class="relative overflow-hidden rounded-2xl shadow-lg">
+                  <img src="assets/IMG-20250827-WA0013.jpg" alt="Student with Traditional Staff"
+                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                  <div
+                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                     <div
+                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                        <i class="fas fa-eye text-3xl mb-2"></i>
+                        <p class="font-semibold">Cultural Pride</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="group cursor-pointer">
+               <div class="relative overflow-hidden rounded-2xl shadow-lg">
+                  <img src="assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                  <div
+                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                     <div
+                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                        <i class="fas fa-eye text-3xl mb-2"></i>
+                        <p class="font-semibold">Community Spirit</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="text-center mt-12">
+            <a href="pages/gallery.html"
+               class="inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-lg">
+               View More Cultural Photos
+               <i class="fas fa-images ml-2"></i>
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <!-- Location & Map Section -->
+   <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+         <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-dark mb-6">Find Our School</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Located in the heart of Ndejje, our school is easily
+               accessible and provides a safe, nurturing environment for your child's education.</p>
+         </div>
+
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Visit Wings Junior School</h3>
+               <div class="space-y-4 mb-8">
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Ndejje kanaaba, Lunnya, Uganda</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-phone text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">+256-772 449 050</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-clock text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Mon-Fri: 7:00 AM - 5:00 PM</span>
+                  </div>
+               </div>
+
+               <div class="flex flex-col sm:flex-row gap-4">
+                  <a href="https://www.google.com/maps?q=0.21723440635274563,32.58689254842554" target="_blank"
+                     class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
+                     <i class="fab fa-google mr-2"></i>Directions on Google Maps
+                  </a>
+                  <a href="pages/contact.html"
+                     class="inline-flex items-center px-6 py-3 bg-white border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
+                     <i class="fas fa-envelope mr-2"></i>Contact Us
+                  </a>
+               </div>
+            </div>
+
+            <div class="relative">
+               <div id="homepage-map" class="w-full h-80 rounded-2xl shadow-2xl overflow-hidden border-4 border-white">
+               </div>
+               <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-6">
+                  <div class="text-center">
+                     <div class="text-3xl font-bold text-primary">Ndejje</div>
+                     <div class="text-sm text-gray-600">Central Location</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
    <!-- CTA Section -->
    <section class="py-20 gradient-bg">
       <div class="container mx-auto px-4 text-center">
@@ -567,7 +775,7 @@
                   <img src="assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h3 class="text-2xl font-display font-bold">WINGS JUNIOR SCHOOL</h3>
-                     <p class="text-gray-400">Excellence in Education</p>
+                     <p class="text-gray-400">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </div>
                <p class="text-gray-400 mb-6 leading-relaxed">
@@ -598,6 +806,8 @@
                   <li><a href="pages/about.html" class="text-gray-400 hover:text-white transition-colors">About Us</a>
                   </li>
                   <li><a href="pages/gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a>
+                  </li>
+                  <li><a href="pages/culture.html" class="text-gray-400 hover:text-white transition-colors">Culture</a>
                   </li>
                   <li><a href="pages/admission.html"
                         class="text-gray-400 hover:text-white transition-colors">Admission</a></li>
@@ -769,7 +979,91 @@
 
       // Start slideshow when page loads
       window.addEventListener('load', startSlideshow);
+
+      // Initialize homepage map
+      function initHomepageMap() {
+         // Wings Junior School coordinates (Ndejje, Uganda)
+         const wingsSchool = [0.21723440635274563, 32.58689254842554];
+
+         // Initialize the map
+         const homepageMap = L.map('homepage-map').setView(wingsSchool, 15);
+
+         // Add OpenStreetMap tiles
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         }).addTo(homepageMap);
+
+         // Create custom marker icon
+         const customIcon = L.divIcon({
+            html: `
+                <div style="
+                   background: #dc2626; 
+                   border: 3px solid white; 
+                   border-radius: 50%; 
+                   width: 40px; 
+                   height: 40px; 
+                   display: flex; 
+                   align-items: center; 
+                   justify-content: center; 
+                   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                   color: white; 
+                   font-weight: bold; 
+                   font-size: 18px;
+                   font-family: Arial, sans-serif;
+                ">W</div>
+             `,
+            className: 'custom-marker',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+         });
+
+         // Add marker to map
+         const marker = L.marker(wingsSchool, { icon: customIcon }).addTo(homepageMap);
+
+         // Create popup content
+         const popupContent = `
+             <div style="text-align: center; padding: 10px; min-width: 200px;">
+                <h3 style="margin: 0 0 8px 0; color: #dc2626; font-weight: bold; font-size: 16px;">
+                   Wings Junior School
+                </h3>
+                <p style="margin: 0 0 5px 0; font-size: 14px; color: #333;">
+                   <i class="fas fa-map-marker-alt" style="color: #dc2626;"></i>
+                   Ndejje kanaaba, Lunnya, Uganda
+                </p>
+                <p style="margin: 0; font-size: 12px; color: #666;">
+                   <i class="fas fa-phone" style="color: #dc2626;"></i>
+                   +256-772 449 050
+                </p>
+             </div>
+          `;
+
+         // Add popup to marker
+         marker.bindPopup(popupContent);
+
+         // Open popup by default
+         marker.openPopup();
+
+         // Disable zoom and pan for homepage map
+         homepageMap.dragging.disable();
+         homepageMap.touchZoom.disable();
+         homepageMap.doubleClickZoom.disable();
+         homepageMap.scrollWheelZoom.disable();
+         homepageMap.boxZoom.disable();
+         homepageMap.keyboard.disable();
+         homepageMap.removeControl(homepageMap.zoomControl);
+      }
+
+      // Initialize homepage map when page loads
+      window.addEventListener('load', function () {
+         // Wait a bit for Leaflet to load
+         setTimeout(initHomepageMap, 1000);
+      });
    </script>
+
+   <!-- Leaflet JavaScript for OpenStreetMap -->
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 
 </html>

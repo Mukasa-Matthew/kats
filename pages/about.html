@@ -6,7 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description"
-      content="Learn more about Wings Junior School - Our mission, values, and commitment to excellence in education">
+      content="Learn more about Wings Junior School - Our mission, values, and commitment to BUILDING BRAINS & CHARACTER">
    <meta name="keywords" content="about wings junior school, school mission, educational values, Uganda education">
 
    <!-- Favicons -->
@@ -44,6 +44,10 @@
    <!-- Font Awesome Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+   <!-- Leaflet CSS for OpenStreetMap -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
    <!-- Custom CSS -->
    <style>
       .gradient-bg {
@@ -65,6 +69,80 @@
 
       .text-shadow {
          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* About page map styles */
+      #about-map {
+         min-height: 320px;
+         background: #f8fafc;
+         position: relative;
+      }
+
+      #about-map::before {
+         content: 'Loading map...';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: #6b7280;
+         font-size: 14px;
+         z-index: 1;
+      }
+
+      #about-map.leaflet-container::before {
+         display: none;
+      }
+
+      /* Slideshow styles for about page */
+      .slideshow-container {
+         position: relative;
+         width: 100%;
+         height: 100%;
+      }
+
+      .slide {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         opacity: 0;
+         transition: opacity 2s ease-in-out;
+      }
+
+      .slide.active {
+         opacity: 1;
+      }
+
+      .slide img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+
+      /* Slideshow navigation styles */
+      .slideshow-dot {
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         background-color: rgba(255, 255, 255, 0.5);
+         cursor: pointer;
+         transition: all 0.3s ease;
+      }
+
+      .slideshow-dot.active {
+         background-color: white;
+         transform: scale(1.2);
+      }
+
+      .slideshow-dot:hover {
+         background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Slideshow arrow styles */
+      #about-prev-slide:hover,
+      #about-next-slide:hover {
+         transform: translateY(-50%) scale(1.1);
       }
    </style>
 </head>
@@ -157,6 +235,8 @@
                   <a href="about.html" class="py-4 px-2 text-primary border-b-2 border-primary font-medium">About Us</a>
                   <a href="gallery.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Gallery</a>
+                  <a href="culture.html"
+                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Culture</a>
                   <a href="admission.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Admission</a>
                   <a href="contact.html"
@@ -180,6 +260,7 @@
                   <a href="../index.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Home</a>
                   <a href="about.html" class="block px-3 py-2 text-primary font-medium">About Us</a>
                   <a href="gallery.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Gallery</a>
+                  <a href="culture.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Culture</a>
                   <a href="admission.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Admission</a>
                   <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Contact</a>
                </div>
@@ -189,8 +270,81 @@
    </header>
 
    <!-- Page Header -->
-   <section class="bg-gradient-to-r from-primary to-secondary py-20">
-      <div class="container mx-auto px-4 text-center">
+   <section id="about-page-header" class="relative py-20 overflow-hidden">
+      <!-- Background Slideshow -->
+      <div class="absolute inset-0 z-0">
+         <div class="slideshow-container w-full h-full">
+            <div class="slide active">
+               <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0012.jpg" alt="Cultural Day Banner"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0013.jpg" alt="Cultural Celebration"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/1.jpg" alt="Gallery Image 1" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/2.jpg" alt="Gallery Image 2" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/3.jpg" alt="Gallery Image 3" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/4.jpg" alt="Gallery Image 4" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/5.jpg" alt="Gallery Image 5" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/6.jpg" alt="Gallery Image 6" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background.jpg" alt="School Environment" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background1.jpg" alt="School Grounds" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background2.jpg" alt="Learning Atmosphere"
+                  class="w-full h-full object-cover">
+            </div>
+         </div>
+
+         <!-- Slideshow Navigation Dots -->
+         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+            <div class="flex space-x-2" id="about-slideshow-dots"></div>
+         </div>
+
+         <!-- Slideshow Navigation Arrows -->
+         <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="about-prev-slide">
+            <i class="fas fa-chevron-left text-xl"></i>
+         </button>
+         <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="about-next-slide">
+            <i class="fas fa-chevron-right text-xl"></i>
+         </button>
+      </div>
+
+      <!-- Red Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/60 to-secondary/60 z-10"></div>
+
+      <!-- Content -->
+      <div class="container mx-auto px-4 text-center relative z-20">
          <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-4">About Our School</h1>
          <p class="text-xl text-white/90 max-w-2xl mx-auto">Discover the story behind Wings Junior School—a place where
             dreams take flight, character is built, and every child discovers their unique potential in a nurturing
@@ -348,6 +502,181 @@
       </div>
    </section>
 
+   <!-- Cultural Heritage Section -->
+   <section id="cultural-heritage-section" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+         <!-- Cultural Heritage Header with Background Slideshow -->
+         <div class="relative mb-16 overflow-hidden rounded-2xl">
+            <!-- Background Slideshow -->
+            <div class="absolute inset-0 z-0">
+               <div class="slideshow-container w-full h-full">
+                  <div class="slide active">
+                     <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event"
+                        class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event"
+                        class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                        class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/IMG-20250827-WA0012.jpg" alt="Cultural Day Banner"
+                        class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/IMG-20250827-WA0013.jpg" alt="Cultural Celebration"
+                        class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/img/gallery/1.jpg" alt="Gallery Image 1" class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/img/gallery/2.jpg" alt="Gallery Image 2" class="w-full h-full object-cover">
+                  </div>
+                  <div class="slide">
+                     <img src="../assets/img/gallery/3.jpg" alt="Gallery Image 3" class="w-full h-full object-cover">
+                  </div>
+               </div>
+
+               <!-- Slideshow Navigation Dots -->
+               <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+                  <div class="flex space-x-2" id="cultural-slideshow-dots"></div>
+               </div>
+
+               <!-- Slideshow Navigation Arrows -->
+               <button
+                  class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+                  id="cultural-prev-slide">
+                  <i class="fas fa-chevron-left text-xl"></i>
+               </button>
+               <button
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+                  id="cultural-next-slide">
+                  <i class="fas fa-chevron-right text-xl"></i>
+               </button>
+            </div>
+
+            <!-- Red Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/60 to-secondary/60 z-10"></div>
+
+            <!-- Content -->
+            <div class="relative z-20 text-center py-16 px-8">
+               <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">Our Cultural Heritage</h2>
+               <p class="text-lg text-white/90 max-w-3xl mx-auto">Celebrating the rich traditions, vibrant community
+                  spirit, and cultural pride that make Wings Junior School a special place for learning and growth.</p>
+            </div>
+         </div>
+
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+               <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event Participant"
+                  class="rounded-2xl shadow-2xl">
+               <div class="absolute -bottom-6 -left-6 bg-primary rounded-2xl shadow-lg p-6 text-white">
+                  <div class="text-center">
+                     <div class="text-3xl font-bold">Cultural</div>
+                     <div class="text-sm opacity-90">Celebration</div>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Building Cultural Pride</h3>
+               <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                  Our Cultural Day celebrations showcase the diverse traditions, music, dance, and attire that make our
+                  community unique. Students learn to appreciate their heritage while developing confidence and
+                  presentation skills.
+               </p>
+               <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-star text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Traditional attire and cultural displays</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-music text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Music, dance, and cultural performances</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-users text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Community involvement and family participation</span>
+                  </div>
+               </div>
+               <a href="gallery.html"
+                  class="inline-flex items-center mt-8 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
+                  View Cultural Gallery
+                  <i class="fas fa-images ml-2"></i>
+               </a>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <!-- Location Section -->
+   <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+         <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-dark mb-6">Our Location</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Conveniently located in Ndejje, our school provides easy
+               access for families in the surrounding communities.</p>
+         </div>
+
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Visit Wings Junior School</h3>
+               <div class="space-y-4 mb-8">
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Ndejje kanaaba, Lunnya, Uganda</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-phone text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">+256-772 449 050</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-clock text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Mon-Fri: 7:00 AM - 5:00 PM</span>
+                  </div>
+               </div>
+
+               <div class="flex flex-col sm:flex-row gap-4">
+                  <a href="https://www.google.com/maps?q=0.21723440635274563,32.58689254842554" target="_blank"
+                     class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
+                     <i class="fab fa-google mr-2"></i>Directions on Google Maps
+                  </a>
+                  <a href="contact.html"
+                     class="inline-flex items-center px-6 py-3 bg-white border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
+                     <i class="fas fa-envelope mr-2"></i>Contact Us
+                  </a>
+               </div>
+            </div>
+
+            <div class="relative">
+               <div id="about-map" class="w-full h-80 rounded-2xl shadow-2xl overflow-hidden border-4 border-white">
+               </div>
+               <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-6">
+                  <div class="text-center">
+                     <div class="text-3xl font-bold text-primary">Ndejje</div>
+                     <div class="text-sm text-gray-600">Central Location</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
    <!-- Footer -->
    <footer class="bg-dark text-white">
       <div class="container mx-auto px-4 py-16">
@@ -358,7 +687,7 @@
                   <img src="../assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h3 class="text-2xl font-display font-bold">WINGS JUNIOR SCHOOL</h3>
-                     <p class="text-gray-400">Excellence in Education</p>
+                     <p class="text-gray-400">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </div>
                <p class="text-gray-400 mb-6 leading-relaxed">
@@ -388,6 +717,7 @@
                   <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
                   <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
                   <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
+                  <li><a href="culture.html" class="text-gray-400 hover:text-white transition-colors">Culture</a></li>
                   <li><a href="admission.html" class="text-gray-400 hover:text-white transition-colors">Admission</a>
                   </li>
                   <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
@@ -468,7 +798,201 @@
             header.classList.remove('shadow-xl');
          }
       });
+
+      // Initialize about page map
+      function initAboutMap() {
+         // Wings Junior School coordinates (Ndejje, Uganda)
+         const wingsSchool = [0.21723440635274563, 32.58689254842554];
+
+         // Initialize the map
+         const aboutMap = L.map('about-map').setView(wingsSchool, 15);
+
+         // Add OpenStreetMap tiles
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         }).addTo(aboutMap);
+
+         // Create custom marker icon
+         const customIcon = L.divIcon({
+            html: `
+               <div style="
+                  background: #dc2626; 
+                  border: 3px solid white; 
+                  border-radius: 50%; 
+                  width: 40px; 
+                  height: 40px; 
+                  display: flex; 
+                  align-items: center; 
+                  justify-content: center; 
+                  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                  color: white; 
+                  font-weight: bold; 
+                  font-size: 18px;
+                  font-family: Arial, sans-serif;
+               ">W</div>
+            `,
+            className: 'custom-marker',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+         });
+
+         // Add marker to map
+         const marker = L.marker(wingsSchool, { icon: customIcon }).addTo(aboutMap);
+
+         // Create popup content
+         const popupContent = `
+            <div style="text-align: center; padding: 10px; min-width: 200px;">
+               <h3 style="margin: 0 0 8px 0; color: #dc2626; font-weight: bold; font-size: 16px;">
+                  Wings Junior School
+               </h3>
+               <p style="margin: 0 0 5px 0; font-size: 14px; color: #333;">
+                  <i class="fas fa-map-marker-alt" style="color: #dc2626;"></i>
+                  Ndejje kanaaba, Lunnya, Uganda
+               </p>
+               <p style="margin: 0; font-size: 12px; color: #666;">
+                  <i class="fas fa-phone" style="color: #dc2626;"></i>
+                  +256-772 449 050
+               </p>
+            </div>
+         `;
+
+         // Add popup to marker
+         marker.bindPopup(popupContent);
+
+         // Open popup by default
+         marker.openPopup();
+
+         // Disable zoom and pan for about page map
+         aboutMap.dragging.disable();
+         aboutMap.touchZoom.disable();
+         aboutMap.doubleClickZoom.disable();
+         aboutMap.scrollWheelZoom.disable();
+         aboutMap.boxZoom.disable();
+         aboutMap.keyboard.disable();
+         aboutMap.removeControl(aboutMap.zoomControl);
+      }
+
+      // Initialize about page map when page loads
+      window.addEventListener('load', function () {
+         // Wait a bit for Leaflet to load
+         setTimeout(initAboutMap, 1000);
+      });
+
+      // About page slideshow functionality
+      let currentAboutSlide = 0;
+      const aboutSlides = document.querySelectorAll('#about-page-header .slide');
+      const aboutDots = document.getElementById('about-slideshow-dots');
+      const aboutPrevBtn = document.getElementById('about-prev-slide');
+      const aboutNextBtn = document.getElementById('about-next-slide');
+
+      // Create navigation dots
+      if (aboutDots && aboutSlides.length > 0) {
+         aboutSlides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'slideshow-dot mx-1';
+            dot.addEventListener('click', () => goToAboutSlide(index));
+            aboutDots.appendChild(dot);
+         });
+         updateAboutDots();
+      }
+
+      // Function to go to specific slide
+      function goToAboutSlide(n) {
+         aboutSlides[currentAboutSlide].classList.remove('active');
+         currentAboutSlide = (n + aboutSlides.length) % aboutSlides.length;
+         aboutSlides[currentAboutSlide].classList.add('active');
+         updateAboutDots();
+      }
+
+      // Function to go to next slide
+      function nextAboutSlide() {
+         goToAboutSlide(currentAboutSlide + 1);
+      }
+
+      // Function to go to previous slide
+      function prevAboutSlide() {
+         goToAboutSlide(currentAboutSlide - 1);
+      }
+
+      // Function to update dots
+      function updateAboutDots() {
+         const dots = aboutDots.querySelectorAll('.slideshow-dot');
+         dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentAboutSlide);
+         });
+      }
+
+      // Add event listeners for navigation buttons
+      if (aboutPrevBtn) {
+         aboutPrevBtn.addEventListener('click', prevAboutSlide);
+      }
+      if (aboutNextBtn) {
+         aboutNextBtn.addEventListener('click', nextAboutSlide);
+      }
+
+      // Auto-advance slideshow
+      setInterval(nextAboutSlide, 4000);
+
+      // Cultural Heritage slideshow functionality
+      let currentCulturalSlide = 0;
+      const culturalSlides = document.querySelectorAll('#cultural-heritage-section .slide');
+      const culturalDots = document.getElementById('cultural-slideshow-dots');
+      const culturalPrevBtn = document.getElementById('cultural-prev-slide');
+      const culturalNextBtn = document.getElementById('cultural-next-slide');
+
+      // Create navigation dots for cultural slideshow
+      if (culturalDots && culturalSlides.length > 0) {
+         culturalSlides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'slideshow-dot mx-1';
+            dot.addEventListener('click', () => goToCulturalSlide(index));
+            culturalDots.appendChild(dot);
+         });
+         updateCulturalDots();
+      }
+
+      // Function to go to specific cultural slide
+      function goToCulturalSlide(n) {
+         culturalSlides[currentCulturalSlide].classList.remove('active');
+         currentCulturalSlide = (n + culturalSlides.length) % culturalSlides.length;
+         culturalSlides[currentCulturalSlide].classList.add('active');
+         updateCulturalDots();
+      }
+
+      // Function to go to next cultural slide
+      function nextCulturalSlide() {
+         goToCulturalSlide(currentCulturalSlide + 1);
+      }
+
+      // Function to go to previous cultural slide
+      function prevCulturalSlide() {
+         goToCulturalSlide(currentCulturalSlide - 1);
+      }
+
+      // Function to update cultural dots
+      function updateCulturalDots() {
+         const dots = culturalDots.querySelectorAll('.slideshow-dot');
+         dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentCulturalSlide);
+         });
+      }
+
+      // Add event listeners for cultural slideshow navigation buttons
+      if (culturalPrevBtn) {
+         culturalPrevBtn.addEventListener('click', prevCulturalSlide);
+      }
+      if (culturalNextBtn) {
+         culturalNextBtn.addEventListener('click', nextCulturalSlide);
+      }
+
+      // Auto-advance cultural slideshow
+      setInterval(nextCulturalSlide, 5000);
    </script>
+
+   <!-- Leaflet JavaScript for OpenStreetMap -->
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 
 </html>

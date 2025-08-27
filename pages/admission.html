@@ -6,7 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description"
-      content="Apply for admission to Wings Junior School - Join our family of learners and discover excellence in education">
+      content="Apply for admission to Wings Junior School - Join our family of learners and discover BUILDING BRAINS & CHARACTER">
    <meta name="keywords" content="school admission, wings junior school application, enroll student, Uganda education">
 
    <!-- Favicons -->
@@ -68,6 +68,58 @@
          background-color: #059669;
          color: white;
       }
+
+      /* Slideshow styles for admission page */
+      .slideshow-container {
+         position: relative;
+         width: 100%;
+         height: 100%;
+      }
+
+      .slide {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         opacity: 0;
+         transition: opacity 2s ease-in-out;
+      }
+
+      .slide.active {
+         opacity: 1;
+      }
+
+      .slide img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+
+      /* Slideshow navigation styles */
+      .slideshow-dot {
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         background-color: rgba(255, 255, 255, 0.5);
+         cursor: pointer;
+         transition: all 0.3s ease;
+      }
+
+      .slideshow-dot.active {
+         background-color: white;
+         transform: scale(1.2);
+      }
+
+      .slideshow-dot:hover {
+         background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Slideshow arrow styles */
+      #admission-prev-slide:hover,
+      #admission-next-slide:hover {
+         transform: translateY(-50%) scale(1.1);
+      }
    </style>
 </head>
 
@@ -117,7 +169,7 @@
                   <img src="../assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h1 class="text-2xl font-display font-bold text-primary">WINGS JUNIOR SCHOOL</h1>
-                     <p class="text-sm text-gray-600">Excellence in Education</p>
+                     <p class="text-sm text-gray-600">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </a>
             </div>
@@ -161,6 +213,8 @@
                      Us</a>
                   <a href="gallery.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Gallery</a>
+                  <a href="culture.html"
+                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Culture</a>
                   <a href="admission.html"
                      class="py-4 px-2 text-primary border-b-2 border-primary font-medium">Admission</a>
                   <a href="contact.html"
@@ -184,6 +238,7 @@
                   <a href="../index.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Home</a>
                   <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-primary">About Us</a>
                   <a href="gallery.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Gallery</a>
+                  <a href="culture.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Culture</a>
                   <a href="admission.html" class="block px-3 py-2 text-primary font-medium">Admission</a>
                   <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Contact</a>
                </div>
@@ -193,8 +248,68 @@
    </header>
 
    <!-- Page Header -->
-   <section class="bg-gradient-to-r from-primary to-secondary py-20">
-      <div class="container mx-auto px-4 text-center">
+   <section id="admission-page-header" class="relative py-20 overflow-hidden">
+      <!-- Background Slideshow -->
+      <div class="absolute inset-0 z-0">
+         <div class="slideshow-container w-full h-full">
+            <div class="slide active">
+               <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0012.jpg" alt="Cultural Day Banner"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0013.jpg" alt="Cultural Celebration"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/1.jpg" alt="Gallery Image 1" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/2.jpg" alt="Gallery Image 2" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/3.jpg" alt="Gallery Image 3" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background.jpg" alt="School Environment" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background1.jpg" alt="School Grounds" class="w-full h-full object-cover">
+            </div>
+         </div>
+
+         <!-- Slideshow Navigation Dots -->
+         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+            <div class="flex space-x-2" id="admission-slideshow-dots"></div>
+         </div>
+
+         <!-- Slideshow Navigation Arrows -->
+         <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="admission-prev-slide">
+            <i class="fas fa-chevron-left text-xl"></i>
+         </button>
+         <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="admission-next-slide">
+            <i class="fas fa-chevron-right text-xl"></i>
+         </button>
+      </div>
+
+      <!-- Red Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/60 to-secondary/60 z-10"></div>
+
+      <!-- Content -->
+      <div class="container mx-auto px-4 text-center relative z-20">
          <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-4">Join Our School Family</h1>
          <p class="text-xl text-white/90 max-w-2xl mx-auto">Begin your child's extraordinary journey at Wings Junior
             School.
@@ -478,6 +593,65 @@
       </div>
    </section>
 
+   <!-- Cultural Community Section -->
+   <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+         <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-dark mb-6">Join Our Vibrant Cultural Community
+            </h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">At Wings Junior School, we celebrate diversity and
+               cultural heritage. Your child will be part of a community that values traditions, creativity, and
+               community spirit.</p>
+         </div>
+
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+               <img src="../assets/IMG-20250827-WA0011.jpg" alt="Community Gathering Event"
+                  class="rounded-2xl shadow-2xl">
+               <div class="absolute -bottom-6 -right-6 bg-primary rounded-2xl shadow-lg p-6 text-white">
+                  <div class="text-center">
+                     <div class="text-3xl font-bold">Community</div>
+                     <div class="text-sm opacity-90">Spirit</div>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Cultural Celebrations</h3>
+               <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                  Our school hosts annual Cultural Day events that bring together students, families, and the community.
+                  These celebrations showcase traditional attire, music, dance, and cultural displays that honor our
+                  rich heritage.
+               </p>
+               <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-calendar-alt text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Annual Cultural Day celebrations</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-star text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Traditional attire and cultural displays</span>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
+                        <i class="fas fa-users text-white text-sm"></i>
+                     </div>
+                     <span class="text-gray-700">Family and community involvement</span>
+                  </div>
+               </div>
+               <a href="gallery.html"
+                  class="inline-flex items-center mt-8 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
+                  View Cultural Gallery
+                  <i class="fas fa-images ml-2"></i>
+               </a>
+            </div>
+         </div>
+      </div>
+   </section>
+
    <!-- CTA Section -->
    <section class="py-20 gradient-bg">
       <div class="container mx-auto px-4 text-center">
@@ -509,7 +683,7 @@
                   <img src="../assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h3 class="text-2xl font-display font-bold">WINGS JUNIOR SCHOOL</h3>
-                     <p class="text-gray-400">Excellence in Education</p>
+                     <p class="text-gray-400">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </div>
                <p class="text-gray-400 mb-6 leading-relaxed">
@@ -539,6 +713,7 @@
                   <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
                   <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
                   <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
+                  <li><a href="culture.html" class="text-gray-400 hover:text-white transition-colors">Culture</a></li>
                   <li><a href="admission.html" class="text-gray-400 hover:text-white transition-colors">Admission</a>
                   </li>
                   <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
@@ -670,8 +845,8 @@
          // Create notification element
          const notification = document.createElement('div');
          notification.className = `notification fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-md ${type === 'success'
-               ? 'bg-green-500 text-white'
-               : 'bg-red-500 text-white'
+            ? 'bg-green-500 text-white'
+            : 'bg-red-500 text-white'
             }`;
 
          notification.innerHTML = `
@@ -703,6 +878,61 @@
             header.classList.remove('shadow-xl');
          }
       });
+
+      // Admission page slideshow functionality
+      let currentAdmissionSlide = 0;
+      const admissionSlides = document.querySelectorAll('#admission-page-header .slide');
+      const admissionDots = document.getElementById('admission-slideshow-dots');
+      const admissionPrevBtn = document.getElementById('admission-prev-slide');
+      const admissionNextBtn = document.getElementById('admission-next-slide');
+
+      // Create navigation dots for admission slideshow
+      if (admissionDots && admissionSlides.length > 0) {
+         admissionSlides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'slideshow-dot mx-1';
+            dot.addEventListener('click', () => goToAdmissionSlide(index));
+            admissionDots.appendChild(dot);
+         });
+         updateAdmissionDots();
+      }
+
+      // Function to go to specific admission slide
+      function goToAdmissionSlide(n) {
+         admissionSlides[currentAdmissionSlide].classList.remove('active');
+         currentAdmissionSlide = (n + admissionSlides.length) % admissionSlides.length;
+         admissionSlides[currentAdmissionSlide].classList.add('active');
+         updateAdmissionDots();
+      }
+
+      // Function to go to next admission slide
+      function nextAdmissionSlide() {
+         goToAdmissionSlide(currentAdmissionSlide + 1);
+      }
+
+      // Function to go to previous admission slide
+      function prevAdmissionSlide() {
+         goToAdmissionSlide(currentAdmissionSlide - 1);
+      }
+
+      // Function to update admission dots
+      function updateAdmissionDots() {
+         const dots = admissionDots.querySelectorAll('.slideshow-dot');
+         dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentAdmissionSlide);
+         });
+      }
+
+      // Add event listeners for admission slideshow navigation buttons
+      if (admissionPrevBtn) {
+         admissionPrevBtn.addEventListener('click', prevAdmissionSlide);
+      }
+      if (admissionNextBtn) {
+         admissionNextBtn.addEventListener('click', nextAdmissionSlide);
+      }
+
+      // Auto-advance admission slideshow
+      setInterval(nextAdmissionSlide, 5000);
    </script>
 </body>
 

@@ -44,9 +44,13 @@
    <!-- Font Awesome Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-   <!-- Google Maps API -->
-   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async
-      defer></script>
+   <!-- Leaflet CSS for OpenStreetMap -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+   <!-- Leaflet JavaScript for OpenStreetMap -->
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
    <!-- Custom CSS -->
    <style>
@@ -66,6 +70,94 @@
       .contact-card:hover {
          transform: translateY(-5px);
          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      /* Map styles */
+      #map {
+         min-height: 320px;
+         background: #f8fafc;
+         position: relative;
+      }
+
+      #map::before {
+         content: 'Loading map...';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: #6b7280;
+         font-size: 14px;
+         z-index: 1;
+      }
+
+      #map.leaflet-container::before {
+         display: none;
+      }
+
+      .custom-marker {
+         background: transparent;
+         border: none;
+      }
+
+      /* Slideshow styles for contact page */
+      .slideshow-container {
+         position: relative;
+         width: 100%;
+         height: 100%;
+      }
+
+      .slide {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         opacity: 0;
+         transition: opacity 2s ease-in-out;
+      }
+
+      .slide.active {
+         opacity: 1;
+      }
+
+      .slide img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+
+      /* Slideshow navigation styles */
+      .slideshow-dot {
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         background-color: rgba(255, 255, 255, 0.5);
+         cursor: pointer;
+         transition: all 0.3s ease;
+      }
+
+      .slideshow-dot.active {
+         background-color: white;
+         transform: scale(1.2);
+      }
+
+      .slideshow-dot:hover {
+         background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Slideshow arrow styles */
+      #contact-prev-slide:hover,
+      #contact-next-slide:hover {
+         transform: translateY(-50%) scale(1.1);
+      }
+
+      .leaflet-popup-content-wrapper {
+         border-radius: 12px;
+         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .leaflet-popup-tip {
+         background: white;
       }
    </style>
 </head>
@@ -116,7 +208,7 @@
                   <img src="../assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h1 class="text-2xl font-display font-bold text-primary">WINGS JUNIOR SCHOOL</h1>
-                     <p class="text-sm text-gray-600">Excellence in Education</p>
+                     <p class="text-sm text-gray-400">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </a>
             </div>
@@ -160,6 +252,8 @@
                      Us</a>
                   <a href="gallery.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Gallery</a>
+                  <a href="culture.html"
+                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Culture</a>
                   <a href="admission.html"
                      class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Admission</a>
                   <a href="contact.html"
@@ -183,6 +277,7 @@
                   <a href="../index.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Home</a>
                   <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-primary">About Us</a>
                   <a href="gallery.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Gallery</a>
+                  <a href="culture.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Culture</a>
                   <a href="admission.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Admission</a>
                   <a href="contact.html" class="block px-3 py-2 text-primary font-medium">Contact</a>
                </div>
@@ -192,8 +287,68 @@
    </header>
 
    <!-- Page Header -->
-   <section class="bg-gradient-to-r from-primary to-secondary py-20">
-      <div class="container mx-auto px-4 text-center">
+   <section id="contact-page-header" class="relative py-20 overflow-hidden">
+      <!-- Background Slideshow -->
+      <div class="absolute inset-0 z-0">
+         <div class="slideshow-container w-full h-full">
+            <div class="slide active">
+               <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0012.jpg" alt="Cultural Day Banner"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/IMG-20250827-WA0013.jpg" alt="Cultural Celebration"
+                  class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/1.jpg" alt="Gallery Image 1" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/2.jpg" alt="Gallery Image 2" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/gallery/3.jpg" alt="Gallery Image 3" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background.jpg" alt="School Environment" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/img/team/background1.jpg" alt="School Grounds" class="w-full h-full object-cover">
+            </div>
+         </div>
+
+         <!-- Slideshow Navigation Dots -->
+         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+            <div class="flex space-x-2" id="contact-slideshow-dots"></div>
+         </div>
+
+         <!-- Slideshow Navigation Arrows -->
+         <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="contact-prev-slide">
+            <i class="fas fa-chevron-left text-xl"></i>
+         </button>
+         <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
+            id="contact-next-slide">
+            <i class="fas fa-chevron-right text-xl"></i>
+         </button>
+      </div>
+
+      <!-- Red Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/60 to-secondary/60 z-10"></div>
+
+      <!-- Content -->
+      <div class="container mx-auto px-4 text-center relative z-20">
          <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-4">Get In Touch</h1>
          <p class="text-xl text-white/90 max-w-2xl mx-auto">We're here to answer all your questions and help you
             discover
@@ -332,17 +487,18 @@
                   <h3 class="text-xl font-semibold text-dark mb-4">Our Location</h3>
                   <div class="space-y-4">
                      <!-- Map Container -->
-                     <div id="map" class="w-full h-64 rounded-lg overflow-hidden shadow-lg"></div>
+                     <div id="map" class="w-full h-80 rounded-lg overflow-hidden shadow-lg border-2 border-gray-200">
+                     </div>
 
                      <!-- Map Controls -->
                      <div class="flex space-x-2">
-                        <button id="google-map-btn"
-                           class="px-3 py-2 bg-primary text-white text-sm rounded-lg hover:bg-secondary transition-colors">
-                           Google Maps
-                        </button>
                         <button id="osm-map-btn"
-                           class="px-3 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-primary hover:text-white transition-colors">
-                           OpenStreetMap
+                           class="px-3 py-2 bg-primary text-white text-sm rounded-lg hover:bg-secondary transition-colors">
+                           <i class="fas fa-map mr-1"></i>OpenStreetMap
+                        </button>
+                        <button id="google-maps-link"
+                           class="px-3 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors">
+                           <i class="fab fa-google mr-1"></i>Google Maps
                         </button>
                      </div>
 
@@ -489,7 +645,7 @@
                   <img src="../assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
                   <div>
                      <h3 class="text-2xl font-display font-bold">WINGS JUNIOR SCHOOL</h3>
-                     <p class="text-gray-400">Excellence in Education</p>
+                     <p class="text-gray-400">BUILDING BRAINS & CHARACTER</p>
                   </div>
                </div>
                <p class="text-gray-400 mb-6 leading-relaxed">
@@ -519,6 +675,7 @@
                   <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
                   <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
                   <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
+                  <li><a href="culture.html" class="text-gray-400 hover:text-white transition-colors">Culture</a></li>
                   <li><a href="admission.html" class="text-gray-400 hover:text-white transition-colors">Admission</a>
                   </li>
                   <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
@@ -601,65 +758,110 @@
          this.reset();
       });
 
-      // Google Maps Initialization
+      // OpenStreetMap Initialization with Leaflet
+      let map;
+
       function initMap() {
-         // Wings Junior School coordinates
-         const wingsSchool = {
-            lat: 0.21723440635274563,
-            lng: 32.58689254842554
-         };
+         // Wings Junior School coordinates (Ndejje, Uganda)
+         const wingsSchool = [0.21723440635274563, 32.58689254842554];
 
-         // Create map
-         const map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: wingsSchool,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            styles: [
-               {
-                  featureType: 'poi',
-                  elementType: 'labels',
-                  stylers: [{ visibility: 'off' }]
-               }
-            ]
+         // Initialize the map
+         map = L.map('map').setView(wingsSchool, 16);
+
+         // Add OpenStreetMap tiles
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         }).addTo(map);
+
+         // Create custom marker icon
+         const customIcon = L.divIcon({
+            html: `
+               <div style="
+                  background: #dc2626; 
+                  border: 3px solid white; 
+                  border-radius: 50%; 
+                  width: 40px; 
+                  height: 40px; 
+                  display: flex; 
+                  align-items: center; 
+                  justify-content: center; 
+                  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                  color: white; 
+                  font-weight: bold; 
+                  font-size: 18px;
+                  font-family: Arial, sans-serif;
+               ">W</div>
+            `,
+            className: 'custom-marker',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
          });
 
-         // Create marker
-         const marker = new google.maps.Marker({
-            position: wingsSchool,
-            map: map,
-            title: 'Wings Junior School',
-            icon: {
-               url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                  <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                     <circle cx="20" cy="20" r="18" fill="#dc2626" stroke="white" stroke-width="2"/>
-                     <text x="20" y="25" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">W</text>
-                  </svg>
-               `),
-               scaledSize: new google.maps.Size(40, 40)
-            }
-         });
+         // Add marker to map
+         const marker = L.marker(wingsSchool, { icon: customIcon }).addTo(map);
 
-         // Create info window
-         const infoWindow = new google.maps.InfoWindow({
-            content: `
-               <div style="padding: 10px; max-width: 200px;">
-                  <h3 style="margin: 0 0 5px 0; color: #dc2626; font-weight: bold;">Wings Junior School</h3>
-                  <p style="margin: 0; font-size: 14px;">Ndejje kanaaba, Lunnya, Uganda</p>
-                  <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">
+         // Create popup content
+         const popupContent = `
+            <div style="text-align: center; padding: 10px; min-width: 200px;">
+               <h3 style="margin: 0 0 8px 0; color: #dc2626; font-weight: bold; font-size: 16px;">
+                  Wings Junior School
+               </h3>
+               <p style="margin: 0 0 5px 0; font-size: 14px; color: #333;">
+                  <i class="fas fa-map-marker-alt" style="color: #dc2626;"></i>
+                  Ndejje kanaaba, Lunnya, Uganda
+               </p>
+               <p style="margin: 0; font-size: 12px; color: #666;">
+                  <i class="fas fa-phone" style="color: #dc2626;"></i>
+                  +256-772 449 050
+               </p>
+               <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                  <small style="color: #999;">
                      Coordinates: 0.21723440635274563°N, 32.58689254842554°E
-                  </p>
+                  </small>
                </div>
-             `
+            </div>
+         `;
+
+         // Add popup to marker
+         marker.bindPopup(popupContent);
+
+         // Open popup by default
+         marker.openPopup();
+
+         // Add click event to open popup
+         marker.on('click', function () {
+            marker.openPopup();
          });
 
-         // Add click event to marker
-         marker.addListener('click', function () {
-            infoWindow.open(map, marker);
-         });
+         // Add some additional map controls
+         map.addControl(new L.Control.Fullscreen());
 
-         // Open info window by default
-         infoWindow.open(map, marker);
+         // Fit map to show the area around the school
+         map.fitBounds([
+            [wingsSchool[0] - 0.01, wingsSchool[1] - 0.01],
+            [wingsSchool[0] + 0.01, wingsSchool[1] + 0.01]
+         ]);
       }
+
+      // Map control button functionality
+      document.addEventListener('DOMContentLoaded', function () {
+         // OpenStreetMap button (already active)
+         document.getElementById('osm-map-btn').addEventListener('click', function () {
+            // Map is already showing OpenStreetMap
+            this.classList.add('bg-primary', 'text-white');
+            this.classList.remove('bg-gray-200', 'text-gray-700');
+         });
+
+         // Google Maps link button
+         document.getElementById('google-maps-link').addEventListener('click', function () {
+            // Open Google Maps in new tab
+            window.open('https://www.google.com/maps?q=0.21723440635274563,32.58689254842554', '_blank');
+         });
+
+         // Initialize map when page loads
+         initMap();
+      });
 
       // Add scroll effect to header
       window.addEventListener('scroll', function () {
@@ -670,6 +872,61 @@
             header.classList.remove('shadow-xl');
          }
       });
+
+      // Contact page slideshow functionality
+      let currentContactSlide = 0;
+      const contactSlides = document.querySelectorAll('#contact-page-header .slide');
+      const contactDots = document.getElementById('contact-slideshow-dots');
+      const contactPrevBtn = document.getElementById('contact-prev-slide');
+      const contactNextBtn = document.getElementById('contact-next-slide');
+
+      // Create navigation dots for contact slideshow
+      if (contactDots && contactSlides.length > 0) {
+         contactSlides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'slideshow-dot mx-1';
+            dot.addEventListener('click', () => goToContactSlide(index));
+            contactDots.appendChild(dot);
+         });
+         updateContactDots();
+      }
+
+      // Function to go to specific contact slide
+      function goToContactSlide(n) {
+         contactSlides[currentContactSlide].classList.remove('active');
+         currentContactSlide = (n + contactSlides.length) % contactSlides.length;
+         contactSlides[currentContactSlide].classList.add('active');
+         updateContactDots();
+      }
+
+      // Function to go to next contact slide
+      function nextContactSlide() {
+         goToContactSlide(currentContactSlide + 1);
+      }
+
+      // Function to go to previous contact slide
+      function prevContactSlide() {
+         goToContactSlide(currentContactSlide - 1);
+      }
+
+      // Function to update contact dots
+      function updateContactDots() {
+         const dots = contactDots.querySelectorAll('.slideshow-dot');
+         dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentContactSlide);
+         });
+      }
+
+      // Add event listeners for contact slideshow navigation buttons
+      if (contactPrevBtn) {
+         contactPrevBtn.addEventListener('click', prevContactSlide);
+      }
+      if (contactNextBtn) {
+         contactNextBtn.addEventListener('click', nextContactSlide);
+      }
+
+      // Auto-advance contact slideshow
+      setInterval(nextContactSlide, 5000);
    </script>
 </body>
 
