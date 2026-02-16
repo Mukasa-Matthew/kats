@@ -15,30 +15,14 @@
    <!-- Page Title -->
    <title>WINGS JUNIOR SCHOOL - BUILDING BRAINS & CHARACTER</title>
 
-   <!-- Tailwind CSS -->
-   <script src="https://cdn.tailwindcss.com"></script>
-   <script>
-      tailwind.config = {
-         theme: {
-            extend: {
-               colors: {
-                  primary: '#dc2626',
-                  secondary: '#991b1b',
-                  accent: '#fef2f2',
-                  dark: '#1f2937'
-               },
-               fontFamily: {
-                  'sans': ['Inter', 'system-ui', 'sans-serif'],
-                  'display': ['Poppins', 'system-ui', 'sans-serif']
-               }
-            }
-         }
-      }
-   </script>
+   <!-- Tailwind CSS (production build) -->
+   <link rel="stylesheet" href="assets/css/tailwind.css">
 
-   <!-- Google Fonts -->
+   <!-- Google Fonts — 2025 look -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700;800&display=swap"
       rel="stylesheet">
 
    <!-- Font Awesome Icons -->
@@ -48,285 +32,127 @@
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
-   <!-- Custom CSS -->
+   <!-- 2025–2026 theme -->
+   <link rel="stylesheet" href="assets/css/theme-2025.css">
+
    <style>
-      .gradient-bg {
-         background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-      }
-
-      .hero-gradient {
-         background: linear-gradient(135deg, rgba(220, 38, 38, 0.4) 0%, rgba(153, 27, 27, 0.4) 100%);
-      }
-
-      .card-hover {
-         transition: all 0.3s ease;
-      }
-
-      .card-hover:hover {
-         transform: translateY(-8px);
-         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-
-      .text-shadow {
-         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      .backdrop-blur {
-         backdrop-filter: blur(10px);
-      }
-
-      /* Slideshow styles */
-      .slideshow-container {
-         position: relative;
-         width: 100%;
-         height: 100%;
-      }
-
-      .slide {
-         position: absolute;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         opacity: 0;
-         transition: opacity 2s ease-in-out;
-      }
-
-      .slide.active {
-         opacity: 1;
-      }
-
-      .slide img {
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-      }
-
-      /* Slideshow navigation styles */
-      .slideshow-dot {
-         width: 12px;
-         height: 12px;
-         border-radius: 50%;
-         background-color: rgba(255, 255, 255, 0.5);
-         cursor: pointer;
-         transition: all 0.3s ease;
-      }
-
-      .slideshow-dot.active {
-         background-color: white;
-         transform: scale(1.2);
-      }
-
-      .slideshow-dot:hover {
-         background-color: rgba(255, 255, 255, 0.8);
-      }
-
-      /* Slideshow arrow styles */
-      #prev-slide:hover,
-      #next-slide:hover {
-         transform: translateY(-50%) scale(1.1);
-      }
-
-      /* Homepage map styles */
-      #homepage-map {
-         min-height: 320px;
-         background: #f8fafc;
-         position: relative;
-      }
-
-      #homepage-map::before {
-         content: 'Loading map...';
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-         color: #6b7280;
-         font-size: 14px;
-         z-index: 1;
-      }
-
-      #homepage-map.leaflet-container::before {
-         display: none;
-      }
+      #homepage-map { min-height: 320px; background: #fafafa; position: relative; border-radius: 1.5rem; }
+      #homepage-map::before { content: 'Loading map…'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #64748b; font-size: 0.875rem; z-index: 1; }
+      #homepage-map.leaflet-container::before { display: none; }
    </style>
 </head>
 
-<body class="font-sans text-gray-800 bg-gray-50">
+<body class="font-sans text-slate-800 bg-surface antialiased">
+   <a href="#main-content" class="skip-link">Skip to main content</a>
    <!-- Preloader -->
    <div id="page-preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
-      <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+      <div class="animate-spin rounded-full h-12 w-12 border-2 border-primary border-t-transparent"></div>
    </div>
 
-   <!-- Header -->
-   <header class="bg-white shadow-lg sticky top-0 z-40">
-      <!-- Top Bar -->
-      <div class="bg-primary text-white py-2">
-         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center text-sm">
-               <div class="flex items-center space-x-4 mb-2 md:mb-0">
-                  <a href="#" class="hover:text-accent transition-colors">
-                     <i class="fab fa-facebook-f text-lg"></i>
-                  </a>
-                  <a href="#" class="hover:text-accent transition-colors">
-                     <i class="fab fa-twitter text-lg"></i>
-                  </a>
-                  <a href="#" class="hover:text-accent transition-colors">
-                     <i class="fab fa-youtube text-lg"></i>
-                  </a>
+   <!-- Header — 2025 glass style -->
+   <header id="main-header" class="header-glass sticky top-0 z-40">
+      <div class="container mx-auto px-4 lg:px-8">
+         <div class="flex items-center justify-between h-20">
+            <a href="index.html" class="flex items-center gap-3">
+               <img src="assets/img/team/badge.png" alt="Wings Junior School" class="h-12 w-12 lg:h-14 lg:w-14 rounded-xl object-cover">
+               <div>
+                  <span class="font-display font-bold text-dark text-lg lg:text-xl tracking-tight">WINGS JUNIOR SCHOOL</span>
+                  <span class="block text-xs text-slate-500 font-medium">Building brains & character</span>
                </div>
-               <div class="flex items-center space-x-6 text-xs">
-                  <span class="flex items-center">
-                     <i class="fas fa-map-marker-alt mr-2"></i>
-                     Ndejje kanaaba, Lunnya
-                  </span>
-                  <span class="flex items-center">
-                     <i class="fas fa-phone mr-2"></i>
-                     +256-772 449 050
-                  </span>
-               </div>
-            </div>
-         </div>
-      </div>
+            </a>
 
-      <!-- Main Header -->
-      <div class="container mx-auto px-4 py-4">
-         <div class="flex flex-col lg:flex-row items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center mb-4 lg:mb-0">
-               <a href="index.html" class="flex items-center space-x-3">
-                  <img src="assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
-                  <div>
-                     <h1 class="text-2xl font-display font-bold text-primary">WINGS JUNIOR SCHOOL</h1>
-                     <p class="text-sm text-gray-600">BUILDING BRAINS WITH CHARACTER</p>
-                  </div>
+            <nav class="hidden lg:flex items-center gap-1">
+               <a href="index.html" class="nav-link-2025 active py-4 px-4 text-primary font-semibold text-sm">Home</a>
+               <a href="pages/about.html" class="nav-link-2025 py-4 px-4 text-slate-600 hover:text-primary font-medium text-sm">About</a>
+               <a href="pages/gallery.html" class="nav-link-2025 py-4 px-4 text-slate-600 hover:text-primary font-medium text-sm">Gallery</a>
+               <a href="pages/culture.html" class="nav-link-2025 py-4 px-4 text-slate-600 hover:text-primary font-medium text-sm">Culture</a>
+               <a href="pages/admission.html" class="nav-link-2025 py-4 px-4 text-slate-600 hover:text-primary font-medium text-sm">Admission</a>
+               <a href="pages/contact.html" class="nav-link-2025 py-4 px-4 text-slate-600 hover:text-primary font-medium text-sm">Contact</a>
+            </nav>
+
+            <div class="hidden lg:flex items-center gap-4 text-sm">
+               <a href="tel:+256772449050" class="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors">
+                  <i class="fas fa-phone text-primary"></i>
+                  <span>+256 772 449 050</span>
+               </a>
+               <a href="pages/contact.html" class="btn-primary-2025 inline-flex items-center gap-2 text-sm py-2.5 px-5">
+                  Get in touch
+                  <i class="fas fa-arrow-right text-xs"></i>
                </a>
             </div>
 
-            <!-- Header Info -->
-            <div class="hidden lg:flex items-center space-x-8">
-               <div class="text-center">
-                  <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                     <i class="fas fa-envelope text-white text-xl"></i>
-                  </div>
-                  <h5 class="font-semibold text-sm">Connect With Us</h5>
-                  <p class="text-xs text-gray-600">wingsjuniorsch@gmail.com</p>
-               </div>
-               <div class="text-center">
-                  <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                     <i class="fas fa-headphones-alt text-white text-xl"></i>
-                  </div>
-                  <h5 class="font-semibold text-sm">Call For Inquiry</h5>
-                  <p class="text-xs text-gray-600">+256-701406883</p>
-               </div>
-               <div class="text-center">
-                  <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                     <i class="fas fa-clock text-white text-xl"></i>
-                  </div>
-                  <h5 class="font-semibold text-sm">Opening Hours</h5>
-                  <p class="text-xs text-gray-600">Mon-Fri 7:00 AM - 5:00 PM</p>
-               </div>
-            </div>
+            <button id="mobile-menu-button" class="lg:hidden p-2 rounded-xl text-slate-600 hover:text-primary hover:bg-primary-light transition-colors" aria-label="Menu">
+               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+               </svg>
+            </button>
          </div>
       </div>
 
-      <!-- Navigation -->
-      <nav class="bg-white border-t border-gray-200">
-         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between">
-               <div class="hidden lg:flex space-x-8">
-                  <a href="index.html" class="py-4 px-2 text-primary border-b-2 border-primary font-medium">Home</a>
-                  <a href="pages/about.html"
-                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">About
-                     Us</a>
-                  <a href="pages/gallery.html"
-                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Gallery</a>
-                  <a href="pages/culture.html"
-                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Culture</a>
-                  <a href="pages/admission.html"
-                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Admission</a>
-                  <a href="pages/contact.html"
-                     class="py-4 px-2 text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary transition-all duration-300">Contact</a>
-               </div>
-
-               <!-- Mobile menu button -->
-               <div class="lg:hidden">
-                  <button id="mobile-menu-button" class="text-gray-600 hover:text-primary focus:outline-none">
-                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                           d="M4 6h16M4 12h16M4 18h16" />
-                     </svg>
-                  </button>
-               </div>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="hidden lg:hidden">
-               <div class="px-2 pt-2 pb-3 space-y-1 bg-gray-50 rounded-lg mt-2">
-                  <a href="index.html" class="block px-3 py-2 text-primary font-medium">Home</a>
-                  <a href="pages/about.html" class="block px-3 py-2 text-gray-600 hover:text-primary">About Us</a>
-                  <a href="pages/gallery.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Gallery</a>
-                  <a href="pages/culture.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Culture</a>
-                  <a href="pages/admission.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Admission</a>
-                  <a href="pages/contact.html" class="block px-3 py-2 text-gray-600 hover:text-primary">Contact</a>
-               </div>
-            </div>
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md">
+         <div class="container mx-auto px-4 py-4 space-y-1">
+            <a href="index.html" class="block py-3 px-4 rounded-xl text-primary font-semibold">Home</a>
+            <a href="pages/about.html" class="block py-3 px-4 rounded-xl text-slate-600 hover:bg-primary-light hover:text-primary">About</a>
+            <a href="pages/gallery.html" class="block py-3 px-4 rounded-xl text-slate-600 hover:bg-primary-light hover:text-primary">Gallery</a>
+            <a href="pages/culture.html" class="block py-3 px-4 rounded-xl text-slate-600 hover:bg-primary-light hover:text-primary">Culture</a>
+            <a href="pages/admission.html" class="block py-3 px-4 rounded-xl text-slate-600 hover:bg-primary-light hover:text-primary">Admission</a>
+            <a href="pages/contact.html" class="block py-3 px-4 rounded-xl text-slate-600 hover:bg-primary-light hover:text-primary">Contact</a>
+            <a href="tel:+256772449050" class="flex items-center gap-2 py-3 px-4 rounded-xl text-slate-600">
+               <i class="fas fa-phone text-primary"></i>
+               +256 772 449 050
+            </a>
          </div>
-      </nav>
+      </div>
    </header>
 
-   <!-- Hero Section -->
-   <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <!-- Background Images -->
+   <main id="main-content">
+   <!-- Hero Section — 2025 -->
+   <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0">
          <img src="assets/img/team/background.jpg" alt="School Background" class="w-full h-full object-cover">
-         <div class="absolute inset-0 hero-gradient"></div>
+         <div class="absolute inset-0 hero-overlay-2025"></div>
       </div>
 
-      <!-- Content -->
-      <div class="relative z-10 container mx-auto px-4 text-center text-white">
+      <div class="relative z-10 container mx-auto px-4 lg:px-8 text-center text-white">
          <div class="max-w-4xl mx-auto">
-            <h4 class="text-xl md:text-2xl font-medium mb-4 text-accent">Where Every Child Thrives</h4>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 text-shadow">
-               BUILDING BRAINS WITH CHARACTER
+            <p class="section-badge !text-white/90 !mb-6">Where every child thrives</p>
+            <h1 class="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 leading-[1.1] tracking-tight">
+               Building brains<br class="hidden sm:block"> with character
             </h1>
-            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-               At Wings Junior School, we don't just educate minds—we build character, foster creativity, and create
-               confident leaders. With our unique three-teacher system, every child receives the personalized attention
-               they deserve in a nurturing, values-driven environment.
+            <p class="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
+               We don't just educate minds—we build character, foster creativity, and create confident leaders. Our three-teacher system gives every child the attention they deserve.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-               <a href="#"
-                  class="inline-flex items-center px-8 py-4 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl">
-                  Learn More
-                  <i class="fas fa-long-arrow-alt-right ml-2"></i>
+               <a href="pages/about.html" class="btn-primary-2025 inline-flex items-center gap-2 bg-white text-primary hover:bg-white/95">
+                  Learn more
+                  <i class="fas fa-arrow-right text-sm"></i>
                </a>
-               <a href="#"
-                  class="inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary transition-all duration-300">
-                  Contact Us
+               <a href="pages/contact.html" class="btn-outline-2025 inline-flex items-center gap-2 border-white text-white hover:bg-white hover:text-primary">
+                  Contact us
                </a>
             </div>
          </div>
       </div>
 
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-         <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div class="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+      <p class="absolute bottom-20 left-1/2 -translate-x-1/2 text-white/80 text-sm">Ndejje, Lunnya · +256 772 449 050</p>
+      <div class="scroll-indicator-2025 absolute bottom-8 left-1/2 -translate-x-1/2">
+         <div class="w-6 h-10 border-2 border-white/80 rounded-full flex justify-center pt-2">
+            <div class="w-1 h-2 bg-white/80 rounded-full"></div>
          </div>
       </div>
    </section>
 
    <!-- Features Section -->
-   <section class="py-20 relative overflow-hidden">
-      <!-- Background Image Slideshow -->
+   <section class="relative overflow-hidden bg-surface reveal-on-scroll">
       <div class="absolute inset-0 z-0">
          <div class="slideshow-container w-full h-full">
             <div class="slide active">
                <img src="assets/img/team/badge.png" alt="School Badge" class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
-               <img src="assets/img/team/WhatsApp Image 2024-12-12 at 16.01.43_6b1289b1.jpg" alt="Students Learning"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/WhatsApp Image 2024-12-12 at 15.00.19_4e606234.jpg" alt="Students Learning"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
                <img src="assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Event"
@@ -341,8 +167,8 @@
                   class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
-               <img src="assets/img/team/WhatsApp Image 2024-12-12 at 16.01.43_0e270ecb.jpg" alt="Cultural Display"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0018.jpg" alt="Cultural Display"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
                <img src="assets/img/team/WhatsApp Image 2024-12-12 at 15.00.19_4e606234.jpg" alt="Classroom Activities"
@@ -412,27 +238,27 @@
                <img src="assets/img/team/van.jpg" alt="Transport Service" class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
-               <img src="assets/img/team/food.jpg" alt="School Meals" class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/background1.jpg" alt="School Meals" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/team/health.jpg" alt="Health Services"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0009.jpg" alt="Health Services"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/team/parent 1.jpg" alt="Parent Involvement"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0010.jpg" alt="Parent Involvement"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/team/parent 2.jpg" alt="Family Engagement"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0011.jpg" alt="Family Engagement"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
                <img src="assets/img/team/ttst.jpg" alt="School Testimonials"
                   class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
-               <img src="assets/img/team/another1.jpg" alt="School Activities"
-                  class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0020.jpg" alt="School Activities"
+                  class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
                <img src="assets/img/team/anthr2.jpg" alt="Student Programs"
@@ -443,22 +269,22 @@
                   class="w-full h-full object-cover opacity-20">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/1.jpg" alt="Gallery Image 1" class="w-full h-full object-cover opacity-20">
+               <img src="assets/IMG-20250827-WA0005.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/2.jpg" alt="Gallery Image 2" class="w-full h-full object-cover opacity-20">
+               <img src="assets/IMG-20250827-WA0007.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/3.jpg" alt="Gallery Image 3" class="w-full h-full object-cover opacity-20">
+               <img src="assets/IMG-20250827-WA0011.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/4.jpg" alt="Gallery Image 4" class="w-full h-full object-cover opacity-20">
+               <img src="assets/IMG-20250827-WA0012.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/5.jpg" alt="Gallery Image 5" class="w-full h-full object-cover opacity-20">
+               <img src="assets/IMG-20250827-WA0013.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
             <div class="slide">
-               <img src="assets/img/gallery/6.jpg" alt="Gallery Image 6" class="w-full h-full object-cover opacity-20">
+               <img src="assets/img/team/IMG-20241212-WA0005.jpg" alt="Gallery" class="w-full h-full object-cover opacity-20" loading="lazy">
             </div>
          </div>
 
@@ -467,108 +293,81 @@
             <div class="flex space-x-2" id="slideshow-dots"></div>
          </div>
 
-         <!-- Slideshow Navigation Arrows -->
-         <button
-            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
-            id="prev-slide">
-            <i class="fas fa-chevron-left text-xl"></i>
+         <button class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-2xl bg-white/90 hover:bg-white text-primary flex items-center justify-center shadow-soft transition-all duration-300 hover:scale-105" id="prev-slide" aria-label="Previous">
+            <i class="fas fa-chevron-left"></i>
          </button>
-         <button
-            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all duration-300"
-            id="next-slide">
-            <i class="fas fa-chevron-right text-xl"></i>
+         <button class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-2xl bg-white/90 hover:bg-white text-primary flex items-center justify-center shadow-soft transition-all duration-300 hover:scale-105" id="next-slide" aria-label="Next">
+            <i class="fas fa-chevron-right"></i>
          </button>
       </div>
 
-      <div class="container mx-auto px-4 relative z-10">
+      <div class="container mx-auto px-4 lg:px-8 relative z-10 py-20 md:py-28">
          <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-display font-bold text-dark mb-6">Why Choose Wings Junior School?</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Discover the Wings difference—where academic excellence
-               meets character development, where every child is celebrated for their unique gifts, and where learning
-               becomes an exciting adventure that shapes confident, compassionate leaders.</p>
+            <p class="section-badge">Why choose us</p>
+            <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-dark mb-6 tracking-tight">Why Choose Wings Junior School?</h2>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">Academic excellence meets character development. Every child is celebrated; learning becomes an adventure that shapes confident, compassionate leaders.</p>
          </div>
 
-         <div class="grid md:grid-cols-3 gap-8">
-            <!-- Feature 1 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border border-gray-100">
-               <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto">
-                  <i class="fas fa-users text-white text-2xl"></i>
+         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+            <div class="card-2025 p-8 text-center reveal-on-scroll reveal-delay-1">
+               <div class="icon-circle-2025 mb-6 mx-auto">
+                  <i class="fas fa-users text-xl"></i>
                </div>
-               <h3 class="text-xl font-semibold text-dark mb-4 text-center">Small Class Sizes</h3>
-               <p class="text-gray-600 text-center leading-relaxed">Our intimate class sizes create a warm, family-like
-                  atmosphere where every child feels seen, heard, and valued. This personalized approach ensures
-                  no child is left behind.</p>
+               <h3 class="font-display font-semibold text-xl text-dark mb-3">Small Class Sizes</h3>
+               <p class="text-slate-600 leading-relaxed">Intimate classes create a family-like atmosphere where every child is seen, heard, and valued. No one is left behind.</p>
             </div>
-
-            <!-- Feature 2 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border border-gray-100">
-               <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto">
-                  <i class="fas fa-brain text-white text-2xl"></i>
+            <div class="card-2025 p-8 text-center reveal-on-scroll reveal-delay-2">
+               <div class="icon-circle-2025 mb-6 mx-auto">
+                  <i class="fas fa-brain text-xl"></i>
                </div>
-               <h3 class="text-xl font-semibold text-dark mb-4 text-center">Mindful Curriculum</h3>
-               <p class="text-gray-600 text-center leading-relaxed">Our innovative curriculum goes beyond textbooks—it
-                  nurtures critical thinking, sparks creativity, and builds emotional intelligence. We prepare children
-                  not just for exams, but for life's challenges.</p>
+               <h3 class="font-display font-semibold text-xl text-dark mb-3">Mindful Curriculum</h3>
+               <p class="text-slate-600 leading-relaxed">Beyond textbooks—we nurture critical thinking, creativity, and emotional intelligence. Prepared for life, not just exams.</p>
             </div>
-
-            <!-- Feature 3 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border border-gray-100">
-               <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto">
-                  <i class="fas fa-comments text-white text-2xl"></i>
+            <div class="card-2025 p-8 text-center reveal-on-scroll reveal-delay-3">
+               <div class="icon-circle-2025 mb-6 mx-auto">
+                  <i class="fas fa-handshake text-xl"></i>
                </div>
-               <h3 class="text-xl font-semibold text-dark mb-4 text-center">Parent Partnership</h3>
-               <p class="text-gray-600 text-center leading-relaxed">We believe education is a partnership between
-                  school and home. Regular updates, open communication, and family involvement create a strong
-                  foundation for your child's success.</p>
+               <h3 class="font-display font-semibold text-xl text-dark mb-3">Parent Partnership</h3>
+               <p class="text-slate-600 leading-relaxed">Education is a partnership. Regular updates, open communication, and family involvement build a strong foundation for success.</p>
             </div>
          </div>
       </div>
    </section>
 
    <!-- About Section -->
-   <section class="py-20 bg-gray-50">
-      <div class="container mx-auto px-4">
-         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+   <section class="py-20 md:py-28 bg-white reveal-on-scroll">
+      <div class="container mx-auto px-4 lg:px-8">
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div>
-               <h2 class="text-3xl md:text-4xl font-display font-bold text-dark mb-6">Nurturing Future Leaders</h2>
-               <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                  At Wings Junior School, we believe every child is born with extraordinary potential. Our nurturing
-                  environment, combined with our innovative three-teacher system, creates the perfect foundation for
-                  academic success, character development, and leadership skills that will last a lifetime.
+               <p class="section-badge">Our approach</p>
+               <h2 class="font-display font-bold text-3xl md:text-4xl text-dark mb-6 tracking-tight">Nurturing Future Leaders</h2>
+               <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                  Every child is born with extraordinary potential. Our nurturing environment and three-teacher system create the foundation for academic success, character development, and lasting leadership skills.
                </p>
-               <div class="space-y-4">
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-check text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Three teachers per section for personalized attention</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-check text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Modern facilities and learning resources</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-check text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Holistic development approach</span>
-                  </div>
-               </div>
-               <a href="pages/about.html"
-                  class="inline-flex items-center mt-8 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
-                  Learn More About Us
-                  <i class="fas fa-long-arrow-alt-right ml-2"></i>
+               <ul class="space-y-4 mb-8">
+                  <li class="flex items-start gap-3">
+                     <span class="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center mt-0.5 shrink-0"><i class="fas fa-check text-primary text-sm"></i></span>
+                     <span class="text-slate-700">Three teachers per section for personalized attention</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                     <span class="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center mt-0.5 shrink-0"><i class="fas fa-check text-primary text-sm"></i></span>
+                     <span class="text-slate-700">Modern facilities and learning resources</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                     <span class="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center mt-0.5 shrink-0"><i class="fas fa-check text-primary text-sm"></i></span>
+                     <span class="text-slate-700">Holistic development approach</span>
+                  </li>
+               </ul>
+               <a href="pages/about.html" class="btn-primary-2025 inline-flex items-center gap-2">
+                  Learn more about us
+                  <i class="fas fa-arrow-right text-sm"></i>
                </a>
             </div>
             <div class="relative">
-               <img src="assets/img/team/background1.jpg" alt="Students Learning" class="rounded-2xl shadow-2xl">
-               <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-6">
-                  <div class="text-center">
-                     <div class="text-3xl font-bold text-primary">15+</div>
-                     <div class="text-sm text-gray-600">Years of Excellence</div>
-                  </div>
+               <img src="assets/img/team/background1.jpg" alt="Students Learning" class="rounded-3xl shadow-card-hover w-full object-cover">
+               <div class="absolute -bottom-6 -left-4 bg-white rounded-2xl shadow-card p-6 border border-slate-100">
+                  <div class="text-3xl font-display font-bold text-primary">15+</div>
+                  <div class="text-sm text-slate-500 font-medium">Years of excellence</div>
                </div>
             </div>
          </div>
@@ -576,292 +375,191 @@
    </section>
 
    <!-- Cultural Heritage Section -->
-   <section class="py-20 bg-white">
-      <div class="container mx-auto px-4">
-         <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-display font-bold text-dark mb-6">Celebrating Our Cultural Heritage
-            </h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">At Wings Junior School, we take pride in celebrating and
-               preserving our rich cultural traditions. Our Cultural Day events bring together students, families, and
-               the community to honor our heritage and create lasting memories.</p>
+   <section class="py-20 md:py-28 bg-surface reveal-on-scroll">
+      <div class="container mx-auto px-4 lg:px-8">
+         <div class="text-center mb-14">
+            <p class="section-badge">Heritage</p>
+            <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-dark mb-6 tracking-tight">Celebrating Our Cultural Heritage</h2>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">We take pride in celebrating and preserving our rich cultural traditions. Cultural Day brings together students, families, and the community to honor our heritage.</p>
          </div>
 
-         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div class="relative">
-               <img src="assets/IMG-20250827-WA0007.jpg" alt="Cultural Day Family Celebration"
-                  class="rounded-2xl shadow-2xl">
-               <div class="absolute -bottom-6 -right-6 bg-primary rounded-2xl shadow-lg p-6 text-white">
-                  <div class="text-center">
-                     <div class="text-3xl font-bold">Cultural Day</div>
-                     <div class="text-sm opacity-90">Annual Celebration</div>
-                  </div>
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center mb-16">
+            <div class="relative order-2 lg:order-1">
+               <img src="assets/IMG-20250827-WA0007.jpg" alt="Cultural Day" class="rounded-3xl shadow-card-hover w-full object-cover">
+               <div class="absolute -bottom-4 -right-4 bg-primary rounded-2xl shadow-card p-5 text-white">
+                  <span class="font-display font-bold text-xl">Cultural Day</span>
+                  <span class="block text-sm text-white/90">Annual celebration</span>
                </div>
             </div>
-            <div>
-               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Building Cultural Pride</h3>
-               <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                  Our Cultural Day celebrations showcase the diverse traditions, music, dance, and attire that make our
-                  community unique. Students learn to appreciate their heritage while developing confidence and
-                  presentation skills.
-               </p>
-               <div class="space-y-4">
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-star text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Traditional attire and cultural displays</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-music text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Music, dance, and cultural performances</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-users text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Community involvement and family participation</span>
-                  </div>
-               </div>
+            <div class="order-1 lg:order-2">
+               <h3 class="font-display font-bold text-2xl md:text-3xl text-dark mb-6">Building Cultural Pride</h3>
+               <p class="text-slate-600 mb-6 leading-relaxed">Our Cultural Day showcases diverse traditions, music, dance, and attire. Students learn to appreciate their heritage while building confidence and presentation skills.</p>
+               <ul class="space-y-4">
+                  <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center"><i class="fas fa-star text-primary"></i></span><span class="text-slate-700">Traditional attire and cultural displays</span></li>
+                  <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center"><i class="fas fa-music text-primary"></i></span><span class="text-slate-700">Music, dance, and performances</span></li>
+                  <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center"><i class="fas fa-users text-primary"></i></span><span class="text-slate-700">Community and family participation</span></li>
+               </ul>
             </div>
          </div>
 
-         <!-- Cultural Images Grid -->
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="group cursor-pointer">
-               <div class="relative overflow-hidden rounded-2xl shadow-lg">
-                  <img src="assets/IMG-20250827-WA0012.jpg" alt="Students in Traditional Attire"
-                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                  <div
-                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-                     <div
-                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                        <i class="fas fa-eye text-3xl mb-2"></i>
-                        <p class="font-semibold">Traditional Attire</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="group cursor-pointer">
-               <div class="relative overflow-hidden rounded-2xl shadow-lg">
-                  <img src="assets/IMG-20250827-WA0013.jpg" alt="Student with Traditional Staff"
-                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                  <div
-                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-                     <div
-                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                        <i class="fas fa-eye text-3xl mb-2"></i>
-                        <p class="font-semibold">Cultural Pride</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="group cursor-pointer">
-               <div class="relative overflow-hidden rounded-2xl shadow-lg">
-                  <img src="assets/IMG-20250827-WA0011.jpg" alt="Community Gathering"
-                     class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                  <div
-                     class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-                     <div
-                        class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                        <i class="fas fa-eye text-3xl mb-2"></i>
-                        <p class="font-semibold">Community Spirit</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
+         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="pages/gallery.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
+               <img src="assets/IMG-20250827-WA0012.jpg" alt="Traditional Attire" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Traditional Attire</p></div>
+            </a>
+            <a href="pages/gallery.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
+               <img src="assets/IMG-20250827-WA0013.jpg" alt="Cultural Pride" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Cultural Pride</p></div>
+            </a>
+            <a href="pages/gallery.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
+               <img src="assets/IMG-20250827-WA0011.jpg" alt="Community" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Community Spirit</p></div>
+            </a>
          </div>
 
          <div class="text-center mt-12">
-            <a href="pages/gallery.html"
-               class="inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-lg">
-               View More Cultural Photos
-               <i class="fas fa-images ml-2"></i>
+            <a href="pages/gallery.html" class="btn-primary-2025 inline-flex items-center gap-2">
+               View more photos
+               <i class="fas fa-images"></i>
             </a>
          </div>
       </div>
    </section>
 
    <!-- Location & Map Section -->
-   <section class="py-20 bg-gray-50">
-      <div class="container mx-auto px-4">
-         <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-display font-bold text-dark mb-6">Find Our School</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Located in the heart of Ndejje, our school is easily
-               accessible and provides a safe, nurturing environment for your child's education.</p>
+   <section class="py-20 md:py-28 bg-white reveal-on-scroll">
+      <div class="container mx-auto px-4 lg:px-8">
+         <div class="text-center mb-14">
+            <p class="section-badge">Location</p>
+            <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-dark mb-6 tracking-tight">Find Our School</h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">In the heart of Ndejje—easy to reach and a safe, nurturing environment for your child.</p>
          </div>
 
-         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
-               <h3 class="text-2xl md:text-3xl font-display font-bold text-dark mb-6">Visit Wings Junior School</h3>
-               <div class="space-y-4 mb-8">
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-map-marker-alt text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Ndejje kanaaba, Lunnya, Uganda</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-phone text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">+256-772 449 050</span>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center mt-1">
-                        <i class="fas fa-clock text-white text-sm"></i>
-                     </div>
-                     <span class="text-gray-700">Mon-Fri: 7:00 AM - 5:00 PM</span>
-                  </div>
-               </div>
-
+               <h3 class="font-display font-bold text-2xl text-dark mb-6">Visit Wings Junior School</h3>
+               <ul class="space-y-4 mb-8">
+                  <li class="flex items-center gap-3 text-slate-700"><span class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><i class="fas fa-map-marker-alt"></i></span>Ndejje kanaaba, Lunnya, Uganda</li>
+                  <li class="flex items-center gap-3 text-slate-700"><span class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><i class="fas fa-phone"></i></span>+256 772 449 050</li>
+                  <li class="flex items-center gap-3 text-slate-700"><span class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><i class="fas fa-clock"></i></span>Mon–Fri: 7:00 AM – 5:00 PM</li>
+               </ul>
                <div class="flex flex-col sm:flex-row gap-4">
-                  <a href="https://www.google.com/maps?q=0.21723440635274563,32.58689254842554" target="_blank"
-                     class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300">
-                     <i class="fab fa-google mr-2"></i>Directions on Google Maps
+                  <a href="https://www.google.com/maps?q=0.21723440635274563,32.58689254842554" target="_blank" rel="noopener" class="btn-primary-2025 inline-flex items-center gap-2">
+                     <i class="fab fa-google"></i> Directions
                   </a>
-                  <a href="pages/contact.html"
-                     class="inline-flex items-center px-6 py-3 bg-white border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
-                     <i class="fas fa-envelope mr-2"></i>Contact Us
+                  <a href="pages/contact.html" class="btn-outline-2025 inline-flex items-center gap-2 border-primary text-primary hover:bg-primary hover:text-white">
+                     <i class="fas fa-envelope"></i> Contact us
                   </a>
                </div>
             </div>
-
             <div class="relative">
-               <div id="homepage-map" class="w-full h-80 rounded-2xl shadow-2xl overflow-hidden border-4 border-white">
-               </div>
-               <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-6">
-                  <div class="text-center">
-                     <div class="text-3xl font-bold text-primary">Ndejje</div>
-                     <div class="text-sm text-gray-600">Central Location</div>
-                  </div>
+               <div id="homepage-map" class="w-full h-80 overflow-hidden border border-slate-200"></div>
+               <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-card p-5 border border-slate-100">
+                  <span class="font-display font-bold text-xl text-primary">Ndejje</span>
+                  <span class="block text-sm text-slate-500">Central location</span>
                </div>
             </div>
+         </div>
+      </div>
+   </section>
+
+   <!-- Next steps — clear paths -->
+   <section class="py-16 md:py-20 bg-surface reveal-on-scroll">
+      <div class="container mx-auto px-4 lg:px-8">
+         <p class="section-badge text-center">Get started</p>
+         <h2 class="font-display font-bold text-2xl md:text-3xl text-dark text-center mb-10 tracking-tight">Choose Your Next Step</h2>
+         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <a href="pages/admission.html" class="group flex flex-col items-center p-6 rounded-2xl bg-white border border-slate-100 shadow-card hover:shadow-card-hover hover:border-primary/20 transition-all duration-300 text-center">
+               <span class="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors"><i class="fas fa-file-alt text-xl"></i></span>
+               <h3 class="font-display font-semibold text-lg text-dark mb-2">Apply for admission</h3>
+               <p class="text-slate-600 text-sm">Start your child’s journey with us</p>
+            </a>
+            <a href="pages/contact.html" class="group flex flex-col items-center p-6 rounded-2xl bg-white border border-slate-100 shadow-card hover:shadow-card-hover hover:border-primary/20 transition-all duration-300 text-center">
+               <span class="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors"><i class="fas fa-map-marker-alt text-xl"></i></span>
+               <h3 class="font-display font-semibold text-lg text-dark mb-2">Schedule a visit</h3>
+               <p class="text-slate-600 text-sm">See our school in person</p>
+            </a>
+            <a href="pages/gallery.html" class="group flex flex-col items-center p-6 rounded-2xl bg-white border border-slate-100 shadow-card hover:shadow-card-hover hover:border-primary/20 transition-all duration-300 text-center">
+               <span class="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors"><i class="fas fa-images text-xl"></i></span>
+               <h3 class="font-display font-semibold text-lg text-dark mb-2">View gallery</h3>
+               <p class="text-slate-600 text-sm">Moments at Wings</p>
+            </a>
          </div>
       </div>
    </section>
 
    <!-- CTA Section -->
-   <section class="py-20 gradient-bg">
-      <div class="container mx-auto px-4 text-center">
-         <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">Give Your Child the Wings to Soar!</h2>
-         <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join hundreds of satisfied parents who have chosen Wings Junior School for their children's future.
-            Every great journey begins with a single step—take yours today and watch your child transform into
-            a confident, capable leader.
+   <section class="cta-gradient-2025 py-20 md:py-28 relative reveal-on-scroll">
+      <div class="container mx-auto px-4 lg:px-8 text-center relative z-10">
+         <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-6 tracking-tight">Give Your Child the Wings to Soar</h2>
+         <p class="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Join families who have chosen Wings Junior School. Every great journey begins with a single step—take yours today.
          </p>
          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="pages/admission.html"
-               class="inline-flex items-center px-8 py-4 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg">
-               Apply Now
-               <i class="fas fa-long-arrow-alt-right ml-2"></i>
+            <a href="pages/admission.html" class="btn-primary-2025 inline-flex items-center gap-2 bg-white text-primary hover:bg-white/95">
+               Apply now
+               <i class="fas fa-arrow-right text-sm"></i>
             </a>
-            <a href="pages/contact.html"
-               class="inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary transition-all duration-300">
-               Contact Us
+            <a href="pages/contact.html" class="btn-outline-2025 inline-flex items-center gap-2 border-white text-white hover:bg-white hover:text-primary">
+               Contact us
             </a>
          </div>
       </div>
    </section>
+   </main>
 
    <!-- Footer -->
    <footer class="bg-dark text-white">
-      <div class="container mx-auto px-4 py-16">
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- School Info -->
+      <div class="container mx-auto px-4 lg:px-8 py-16 md:py-20">
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
             <div class="lg:col-span-2">
-               <div class="flex items-center space-x-3 mb-6">
-                  <img src="assets/img/team/badge.png" alt="Wings Junior School" class="h-16 w-16">
+               <div class="flex items-center gap-4 mb-6">
+                  <img src="assets/img/team/badge.png" alt="Wings Junior School" class="h-14 w-14 rounded-xl object-cover">
                   <div>
-                     <h3 class="text-2xl font-display font-bold">WINGS JUNIOR SCHOOL</h3>
-                     <p class="text-gray-400">BUILDING BRAINS & CHARACTER</p>
+                     <h3 class="font-display font-bold text-xl">WINGS JUNIOR SCHOOL</h3>
+                     <p class="text-slate-400 text-sm">Building brains & character</p>
                   </div>
                </div>
-               <p class="text-gray-400 mb-6 leading-relaxed">
-                  We are committed to providing quality education and nurturing the potential of every child in a
-                  supportive and innovative learning environment.
+               <p class="text-slate-400 mb-6 max-w-md leading-relaxed">
+                  We are committed to quality education and nurturing every child's potential in a supportive, innovative environment.
                </p>
-               <div class="flex space-x-4">
-                  <a href="#"
-                     class="w-10 h-10 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition-colors">
-                     <i class="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#"
-                     class="w-10 h-10 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition-colors">
-                     <i class="fab fa-twitter"></i>
-                  </a>
-                  <a href="#"
-                     class="w-10 h-10 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition-colors">
-                     <i class="fab fa-youtube"></i>
-                  </a>
+               <div class="flex gap-3">
+                  <a href="#" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-primary flex items-center justify-center transition-colors" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-primary flex items-center justify-center transition-colors" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-primary flex items-center justify-center transition-colors" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                </div>
             </div>
-
-            <!-- Quick Links -->
             <div>
-               <h4 class="text-lg font-semibold mb-6">Quick Links</h4>
+               <h4 class="font-display font-semibold text-lg mb-6">Quick links</h4>
                <ul class="space-y-3">
-                  <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                  <li><a href="pages/about.html" class="text-gray-400 hover:text-white transition-colors">About Us</a>
-                  </li>
-                  <li><a href="pages/gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a>
-                  </li>
-                  <li><a href="pages/culture.html" class="text-gray-400 hover:text-white transition-colors">Culture</a>
-                  </li>
-                  <li><a href="pages/admission.html"
-                        class="text-gray-400 hover:text-white transition-colors">Admission</a></li>
-                  <li><a href="pages/contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a>
-                  </li>
+                  <li><a href="index.html" class="text-slate-400 hover:text-white transition-colors">Home</a></li>
+                  <li><a href="pages/about.html" class="text-slate-400 hover:text-white transition-colors">About</a></li>
+                  <li><a href="pages/gallery.html" class="text-slate-400 hover:text-white transition-colors">Gallery</a></li>
+                  <li><a href="pages/culture.html" class="text-slate-400 hover:text-white transition-colors">Culture</a></li>
+                  <li><a href="pages/admission.html" class="text-slate-400 hover:text-white transition-colors">Admission</a></li>
+                  <li><a href="pages/contact.html" class="text-slate-400 hover:text-white transition-colors">Contact</a></li>
                </ul>
             </div>
-
-            <!-- Contact Info -->
             <div>
-               <h4 class="text-lg font-semibold mb-6">Get In Touch</h4>
-               <div class="space-y-4">
-                  <div class="flex items-start space-x-3">
-                     <i class="fas fa-map-marker-alt text-primary mt-1"></i>
-                     <p class="text-gray-400">Ndejje kanaaba, Lunnya</p>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <i class="fas fa-phone text-primary mt-1"></i>
-                     <div class="text-gray-400">
-                        <p>+256-772449050</p>
-                        <p>+256-393111333</p>
-                     </div>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <i class="fas fa-envelope text-primary mt-1"></i>
-                     <div class="text-gray-400">
-                        <p>wingsjuniorsch@gmail.com</p>
-                        <p>Karuyonga4@gmail.com</p>
-                     </div>
-                  </div>
-                  <div class="flex items-start space-x-3">
-                     <i class="fas fa-clock text-primary mt-1"></i>
-                     <div class="text-gray-400">
-                        <p>Mon-Fri: 7:00 AM - 5:00 PM</p>
-                        <p>Sat: 9:00 AM - 1:00 PM</p>
-                        <p>Sun: Closed</p>
-                     </div>
-                  </div>
-               </div>
+               <h4 class="font-display font-semibold text-lg mb-6">Get in touch</h4>
+               <ul class="space-y-4 text-slate-400">
+                  <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-primary mt-1 shrink-0"></i>Ndejje kanaaba, Lunnya</li>
+                  <li class="flex items-start gap-3"><i class="fas fa-phone text-primary mt-1 shrink-0"></i>+256 772 449 050<br>+256 393 111 333</li>
+                  <li class="flex items-start gap-3"><i class="fas fa-envelope text-primary mt-1 shrink-0"></i>wingsjuniorsch@gmail.com</li>
+                  <li class="flex items-start gap-3"><i class="fas fa-clock text-primary mt-1 shrink-0"></i>Mon–Fri 7AM–5PM · Sat 9AM–1PM</li>
+               </ul>
             </div>
          </div>
       </div>
-
-      <!-- Bottom Footer -->
-      <div class="border-t border-gray-800">
-         <div class="container mx-auto px-4 py-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-               <p class="text-gray-400 text-sm mb-4 md:mb-0">
-                  Copyright © 2025 <a href="#" class="text-primary hover:text-primary/80">Wings Junior School</a> | All
-                  Rights Reserved
+      <div class="border-t border-slate-800">
+         <div class="container mx-auto px-4 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+               <p class="text-slate-500 text-sm">
+                  © 2025–2026 <a href="index.html" class="text-primary hover:text-primary-light transition-colors">Wings Junior School</a>. All rights reserved.
                </p>
-               <div class="flex space-x-6 text-sm">
-                  <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                  <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+               <div class="flex gap-6 text-sm text-slate-500">
+                  <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                  <a href="#" class="hover:text-white transition-colors">Terms</a>
                </div>
             </div>
          </div>
@@ -869,6 +567,8 @@
    </footer>
 
    <!-- Scripts -->
+   <script src="assets/js/scroll-reveal-2025.js"></script>
+   <script src="assets/js/back-to-top.js"></script>
    <script>
       // Hide preloader
       window.addEventListener('load', function () {
@@ -895,15 +595,13 @@
          });
       });
 
-      // Add scroll effect to header
-      window.addEventListener('scroll', function () {
-         const header = document.querySelector('header');
-         if (window.scrollY > 100) {
-            header.classList.add('shadow-xl');
-         } else {
-            header.classList.remove('shadow-xl');
-         }
-      });
+      // Header glass effect on scroll
+      const header = document.getElementById('main-header');
+      if (header) {
+         window.addEventListener('scroll', function () {
+            header.classList.toggle('scrolled', window.scrollY > 20);
+         });
+      }
 
       // Enhanced Slideshow functionality
       function startSlideshow() {
@@ -914,10 +612,10 @@
          let currentSlide = 0;
          let slideshowInterval;
 
-         // Create navigation dots
+         // Create navigation dots (2025 pill style)
          slides.forEach((_, index) => {
             const dot = document.createElement('div');
-            dot.className = 'slideshow-dot';
+            dot.className = 'slideshow-dot-2025';
             dot.addEventListener('click', () => goToSlide(index));
             dotsContainer.appendChild(dot);
          });
@@ -926,8 +624,7 @@
             slides.forEach(slide => slide.classList.remove('active'));
             slides[index].classList.add('active');
 
-            // Update dots
-            document.querySelectorAll('.slideshow-dot').forEach((dot, i) => {
+            document.querySelectorAll('.slideshow-dot-2025').forEach((dot, i) => {
                dot.classList.toggle('active', i === index);
             });
 
@@ -997,7 +694,7 @@
          const customIcon = L.divIcon({
             html: `
                 <div style="
-                   background: #dc2626; 
+                   background: #b91c1c; 
                    border: 3px solid white; 
                    border-radius: 50%; 
                    width: 40px; 
@@ -1024,15 +721,15 @@
          // Create popup content
          const popupContent = `
              <div style="text-align: center; padding: 10px; min-width: 200px;">
-                <h3 style="margin: 0 0 8px 0; color: #dc2626; font-weight: bold; font-size: 16px;">
+                <h3 style="margin: 0 0 8px 0; color: #b91c1c; font-weight: bold; font-size: 16px;">
                    Wings Junior School
                 </h3>
                 <p style="margin: 0 0 5px 0; font-size: 14px; color: #333;">
-                   <i class="fas fa-map-marker-alt" style="color: #dc2626;"></i>
+                   <i class="fas fa-map-marker-alt" style="color: #b91c1c;"></i>
                    Ndejje kanaaba, Lunnya, Uganda
                 </p>
                 <p style="margin: 0; font-size: 12px; color: #666;">
-                   <i class="fas fa-phone" style="color: #dc2626;"></i>
+                   <i class="fas fa-phone" style="color: #b91c1c;"></i>
                    +256-772 449 050
                 </p>
              </div>
@@ -1065,7 +762,5 @@
    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
-
-</html>
 
 </html>

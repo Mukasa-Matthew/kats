@@ -1,0 +1,407 @@
+/**
+ * Wings Junior School — 2025–2026 Design System
+ * Modern, warm, and accessible.
+ */
+
+:root {
+  /* Brand */
+  --primary: #b91c1c;
+  --primary-hover: #991b1b;
+  --primary-light: #fef2f2;
+  --primary-muted: rgba(185, 28, 28, 0.08);
+  --accent-warm: #d97706;
+  --accent-warm-light: #fef3c7;
+
+  /* Surfaces */
+  --surface: #fafafa;
+  --surface-elevated: #ffffff;
+  --surface-overlay: rgba(15, 23, 42, 0.6);
+
+  /* Text */
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-soft: #64748b;
+
+  /* Borders & shadows */
+  --border: #e2e8f0;
+  --border-soft: #f1f5f9;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.25s;
+}
+
+/* Skip link — accessibility */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: top var(--duration) ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  outline: 3px solid var(--accent-warm);
+  outline-offset: 2px;
+}
+
+/* Focus visible — keyboard UX */
+a:focus-visible,
+button:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Base */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Typography */
+.font-display {
+  letter-spacing: -0.02em;
+}
+
+/* Header — glass-style when scrolled */
+.header-glass {
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-soft);
+  transition: background-color var(--duration) ease, box-shadow var(--duration) ease;
+}
+
+.header-glass.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border-soft);
+}
+
+/* Nav link underline animation */
+.nav-link-2025 {
+  position: relative;
+}
+
+.nav-link-2025::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width var(--duration) var(--ease-out-expo);
+}
+
+.nav-link-2025:hover::after,
+.nav-link-2025.active::after {
+  width: 100%;
+}
+
+/* Buttons */
+.btn-primary-2025 {
+  background: var(--primary);
+  color: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  transition: transform var(--duration) var(--ease-out-expo), box-shadow var(--duration) ease, background-color var(--duration) ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary-2025:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.btn-outline-2025 {
+  border: 2px solid currentColor;
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  transition: transform var(--duration) var(--ease-out-expo), color var(--duration) ease, background-color var(--duration) ease;
+}
+
+.btn-outline-2025:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary-2025:active,
+.btn-outline-2025:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 45;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: white;
+  border: none;
+  box-shadow: var(--shadow-card-hover);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition: opacity var(--duration) ease, visibility var(--duration) ease, transform var(--duration) var(--ease-out-expo), background-color var(--duration) ease;
+}
+
+.back-to-top:hover {
+  background: var(--primary-hover);
+}
+
+.back-to-top:active {
+  transform: translateY(0.5rem) scale(0.95);
+}
+
+.back-to-top.back-to-top-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { transition: opacity 0.15s ease, visibility 0.15s ease; }
+}
+
+/* Cards */
+.card-2025 {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--duration) var(--ease-out-expo), box-shadow var(--duration) ease, border-color var(--duration) ease;
+}
+
+.card-2025:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--border);
+}
+
+/* Section titles */
+.section-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+/* Hero gradient overlay */
+.hero-overlay-2025 {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.75) 100%);
+}
+
+/* Gradient CTA section */
+.cta-gradient-2025 {
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 50%, #991b1b 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-gradient-2025::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 120%, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Icon circles */
+.icon-circle-2025 {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-muted);
+  color: var(--primary);
+  transition: background-color var(--duration) ease, transform var(--duration) var(--ease-out-expo);
+}
+
+.card-2025:hover .icon-circle-2025 {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Slideshow dots — modern pill style */
+.slideshow-dot-2025 {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: width var(--duration) var(--ease-out-expo), background-color var(--duration) ease;
+}
+
+.slideshow-dot-2025.active {
+  width: 24px;
+  background: white;
+}
+
+.slideshow-dot-2025:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Hero / page banner overlay — soft dark, minimal red so images show through */
+.hero-banner-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.62) 0%,
+    rgba(15, 23, 42, 0.5) 50%,
+    rgba(30, 30, 30, 0.52) 100%
+  );
+  pointer-events: none;
+}
+
+/* Slideshow — smooth crossfade with subtle scale (2025) */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slideshow-container .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 1.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slideshow-container .slide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.slideshow-container .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slideshow-container .slide {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
+  .slideshow-container .slide.active { transform: none; }
+}
+
+/* Form inputs */
+.input-2025:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-muted);
+}
+
+/* Scroll indicator */
+.scroll-indicator-2025 {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translate(-50%, 0); opacity: 1; }
+  50% { transform: translate(-50%, 6px); opacity: 0.7; }
+}
+
+/* Section rhythm — optional soft top border between sections */
+.section-border-t {
+  border-top: 1px solid var(--border-soft);
+}
+
+/* Stagger children (for lists/cards) */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+
+/* Scroll-reveal — 2025 UX: elements animate in as user scrolls */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-on-scroll.reveal-scale {
+  transform: translateY(28px) scale(0.97);
+}
+
+.reveal-on-scroll.reveal-scale.revealed {
+  transform: translateY(0) scale(1);
+}
+
+/* Stagger delays for grid/list children */
+.reveal-on-scroll.reveal-delay-1 { transition-delay: 0.06s; }
+.reveal-on-scroll.reveal-delay-2 { transition-delay: 0.12s; }
+.reveal-on-scroll.reveal-delay-3 { transition-delay: 0.18s; }
+.reveal-on-scroll.reveal-delay-4 { transition-delay: 0.24s; }
+.reveal-on-scroll.reveal-delay-5 { transition-delay: 0.3s; }
+.reveal-on-scroll.reveal-delay-6 { transition-delay: 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-on-scroll.reveal-scale { transform: none; }
+}
+
+/* Hide broken images — used by scroll-reveal-2025.js image error handler */
+img.img-error {
+  opacity: 0;
+  pointer-events: none;
+}
