@@ -3,7 +3,7 @@
  * Requires jason-media.js and elements: #hero-slideshow, #features-slideshow, #jason-marquee-track, #jason-spotlight-carousel
  */
 (function () {
-  var BASE = 'assets/JASON/';
+  var BASE = '/assets/JASON/';
 
   document.addEventListener('DOMContentLoaded', function () {
     if (!window.JASON_MEDIA) return;

@@ -50,7 +50,7 @@
     var grid = document.getElementById('gallery-grid');
     if (!grid || !window.JASON_MEDIA) return;
 
-    var base = window.JASON_GALLERY_BASE || '../assets/JASON/';
+    var base = window.JASON_GALLERY_BASE || '/assets/JASON/';
     var items = [];
 
     LEGACY.forEach(function (x) {
