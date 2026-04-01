@@ -25,17 +25,217 @@
 
    <link rel="stylesheet" href="../assets/css/theme-2025.css">
    <style>
-      #gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
-      @media (min-width: 1024px) { #gallery-grid { gap: 1.5rem; } }
-      .gallery-card { position: relative; border-radius: 1rem; overflow: hidden; background: var(--surface-elevated, #fff); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04); transition: transform 0.35s ease, box-shadow 0.35s ease; }
-      .gallery-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08), 0 8px 16px rgba(185,28,28,0.06); }
-      .gallery-card .aspect-box { aspect-ratio: 4/3; overflow: hidden; }
-      .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-      .gallery-card:hover img { transform: scale(1.06); }
-      .gallery-card .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; justify-content: center; padding: 1rem; }
-      .gallery-card:hover .overlay { opacity: 1; }
-      .gallery-card .overlay span { color: #fff; font-size: 0.875rem; font-weight: 600; }
+      /* —— Gallery page: mosaic + filmstrip —— */
+      .gallery-page-mosaic { background: linear-gradient(180deg, #fafafa 0%, #f1f5f9 45%, #fafafa 100%); }
+      .gallery-mosaic-bg {
+         pointer-events: none; position: absolute; inset: 0;
+         background:
+            radial-gradient(ellipse 80% 50% at 10% 20%, rgba(185, 28, 28, 0.06), transparent 50%),
+            radial-gradient(ellipse 60% 40% at 90% 80%, rgba(217, 119, 6, 0.05), transparent 45%);
+      }
+
+      .gallery-filmstrip {
+         display: flex; gap: 0.75rem; overflow-x: auto; padding: 0.5rem 0 1rem;
+         scroll-snap-type: x mandatory; scroll-padding: 1rem;
+         -webkit-overflow-scrolling: touch;
+         mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
+         mask-size: 100% 100%;
+      }
+      .gallery-filmstrip::-webkit-scrollbar { height: 5px; }
+      .gallery-filmstrip::-webkit-scrollbar-thumb { background: rgba(185, 28, 28, 0.35); border-radius: 9999px; }
+
+      .gallery-filmstrip-item {
+         position: relative; width: 9.5rem; height: 6.5rem; flex-shrink: 0; border: none; padding: 0; cursor: pointer;
+         border-radius: 1rem; overflow: hidden; scroll-snap-align: center;
+         box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      }
+      .gallery-filmstrip-item:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18); }
+      .gallery-filmstrip-item:focus-visible { outline: 2px solid #b91c1c; outline-offset: 3px; }
+      .gallery-filmstrip-item img { width: 100%; height: 100%; object-fit: cover; }
+
+      #gallery-filters { gap: 0.5rem; }
+      .gallery-filter-pill {
+         border: 1px solid #e2e8f0; background: #fff; color: #64748b; font-size: 0.8125rem; font-weight: 600;
+         padding: 0.5rem 1.1rem; border-radius: 9999px; cursor: pointer; transition: all 0.25s ease;
+      }
+      .gallery-filter-pill:hover { border-color: rgba(185, 28, 28, 0.35); color: #b91c1c; }
+      .gallery-filter-pill--active {
+         background: #b91c1c; border-color: #b91c1c; color: #fff;
+         box-shadow: 0 4px 14px rgba(185, 28, 28, 0.35);
+      }
+
+      .gallery-mosaic-grid {
+         display: grid; gap: 0.75rem;
+         grid-template-columns: 1fr;
+         grid-auto-rows: minmax(12rem, 14rem);
+      }
+      @media (min-width: 480px) {
+         .gallery-mosaic-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: minmax(9.5rem, 11rem); }
+      }
+      @media (min-width: 640px) {
+         .gallery-mosaic-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: minmax(10rem, 12rem); gap: 1rem; }
+      }
+      @media (min-width: 1024px) {
+         .gallery-mosaic-grid { grid-template-columns: repeat(5, 1fr); grid-auto-rows: 11.5rem; gap: 1rem; }
+      }
+
+      .gallery-mosaic-cell.gallery-cell--hero {
+         grid-column: span 2; grid-row: span 2;
+      }
+      .gallery-mosaic-cell.gallery-cell--wide { grid-column: span 2; }
+      .gallery-mosaic-cell.gallery-cell--tall { grid-row: span 2; }
+
+      @media (min-width: 480px) and (max-width: 639px) {
+         .gallery-mosaic-cell.gallery-cell--hero,
+         .gallery-mosaic-cell.gallery-cell--wide,
+         .gallery-mosaic-cell.gallery-cell--tall { grid-column: span 2; grid-row: span 1; min-height: 11rem; }
+      }
+
+      .gallery-cell--hidden { display: none !important; }
+
+      .gallery-card {
+         position: relative; height: 100%; min-height: 9.5rem; border-radius: 1.125rem; overflow: hidden;
+         background: #e2e8f0;
+         box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+         transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+      }
+      .gallery-card::after {
+         content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+         box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+         z-index: 2; transition: box-shadow 0.35s ease;
+      }
+      .gallery-card:hover {
+         transform: translateY(-5px) scale(1.01);
+         box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(185, 28, 28, 0.08);
+      }
+      .gallery-card:hover::after { box-shadow: inset 0 0 0 2px rgba(185, 28, 28, 0.25); }
+
+      .gallery-card-media { position: absolute; inset: 0; overflow: hidden; }
+      .gallery-card-media img {
+         width: 100%; height: 100%; object-fit: cover;
+         transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .gallery-card:hover .gallery-card-media img { transform: scale(1.08); }
+
+      .gallery-card-overlay {
+         position: absolute; inset: 0; z-index: 3;
+         background: linear-gradient(165deg, transparent 35%, rgba(15, 23, 42, 0.75) 100%);
+         opacity: 0; transition: opacity 0.4s ease;
+         display: flex; align-items: flex-end; justify-content: center; padding: 1rem;
+      }
+      .gallery-card:hover .gallery-card-overlay { opacity: 1; }
+      .gallery-card-overlay-inner { transform: translateY(8px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+      .gallery-card:hover .gallery-card-overlay-inner { transform: translateY(0); }
+      .gallery-card-cta {
+         display: inline-flex; align-items: center; gap: 0.5rem; color: #fff; font-size: 0.8125rem; font-weight: 600;
+         letter-spacing: 0.02em; text-transform: uppercase;
+      }
+
+      .gallery-video-play {
+         position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center;
+         pointer-events: none; background: rgba(0,0,0,0.18); transition: background 0.35s ease;
+      }
+      .gallery-card:hover .gallery-video-play { background: rgba(0,0,0,0.32); }
+      .gallery-video-play i {
+         width: 3.25rem; height: 3.25rem; border-radius: 9999px; background: rgba(255,255,255,0.95); color: #b91c1c;
+         display: flex; align-items: center; justify-content: center; font-size: 1rem; padding-left: 3px;
+         box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+      }
+
+      #gallery-page-header .slideshow-container { min-height: 22rem; }
+      @media (min-width: 768px) { #gallery-page-header .slideshow-container { min-height: 26rem; } }
+
+      /* Lightbox — backdrop is its own layer so the photo/video stays sharp (avoids browser blur on children) */
+      #gallery-lightbox {
+         transition: opacity 0.25s ease;
+         isolation: isolate;
+      }
+      #gallery-lightbox.gallery-lightbox--open { opacity: 1; }
+      .gallery-lightbox-backdrop {
+         position: absolute;
+         inset: 0;
+         z-index: 0;
+         background: rgba(15, 23, 42, 0.92);
+         backdrop-filter: blur(12px);
+         -webkit-backdrop-filter: blur(12px);
+         cursor: pointer;
+      }
+      .gallery-lightbox-stage {
+         position: relative;
+         z-index: 10;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         gap: 0.75rem;
+         flex: 1;
+         min-height: 0;
+         width: 100%;
+         max-height: 100%;
+         padding: 3.5rem 3rem 1.5rem;
+         pointer-events: none;
+      }
+      .gallery-lightbox-stage > * {
+         pointer-events: auto;
+      }
+      /* Never hide lightbox photo via global img.img-error (empty src fires error on load) */
+      #gallery-lightbox #lightbox-img.img-error {
+         opacity: 1;
+      }
+      #lightbox-img {
+         display: block;
+         flex: 0 1 auto;
+         min-width: 0;
+         min-height: 0;
+         transition: opacity 0.2s ease;
+         max-width: 100%;
+         max-height: 85vh;
+         width: auto;
+         height: auto;
+         object-fit: contain;
+         border-radius: 0.75rem;
+         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+         position: relative;
+         z-index: 11;
+      }
+      #lightbox-video {
+         width: 100%;
+         max-width: 72rem;
+         max-height: 85vh;
+         border-radius: 0.75rem;
+         background: #000;
+         position: relative;
+         z-index: 11;
+      }
+      #gallery-lightbox.flex { display: flex; flex-direction: column; }
+      .gallery-lightbox-nav {
+         position: absolute; top: 50%; transform: translateY(-50%); z-index: 40;
+         width: 3rem; height: 3rem; border-radius: 9999px; border: none; cursor: pointer;
+         background: rgba(255, 255, 255, 0.18);
+         color: #fff;
+         display: flex; align-items: center; justify-content: center;
+         transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .gallery-lightbox-nav:hover { background: rgba(255,255,255,0.22); transform: translateY(-50%) scale(1.05); }
+      .gallery-lightbox-nav--prev { left: 0.75rem; }
+      .gallery-lightbox-nav--next { right: 0.75rem; }
+      @media (min-width: 768px) {
+         .gallery-lightbox-nav--prev { left: 1.5rem; }
+         .gallery-lightbox-nav--next { right: 1.5rem; }
+      }
+      #lightbox-counter { font-variant-numeric: tabular-nums; }
    </style>
+   <script>
+      (function () {
+         try {
+            if (sessionStorage.getItem('wings-pt-out')) {
+               sessionStorage.removeItem('wings-pt-out');
+               document.documentElement.classList.add('wings-pt-pending-enter');
+            }
+         } catch (e) {}
+      })();
+   </script>
 </head>
 
 <body class="font-sans text-slate-800 bg-surface antialiased">
@@ -89,7 +289,7 @@
    <section id="gallery-page-header" class="relative py-20 overflow-hidden">
       <!-- Background Slideshow -->
       <div class="absolute inset-0 z-0">
-         <div class="slideshow-container w-full h-full">
+         <div class="slideshow-container hero-slideshow-kenburns w-full h-full">
             <div class="slide active">
                <img src="../assets/IMG-20250827-WA0005.jpg" alt="Cultural Event" class="w-full h-full object-cover">
             </div>
@@ -126,6 +326,27 @@
             <div class="slide">
                <img src="../assets/img/team/IMG-20241212-WA0005.jpg" alt="Gallery Image 6" class="w-full h-full object-cover">
             </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_15_05_03_IMG_1947.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_15_12_56_IMG_1965.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_15_38_47_IMG_1989.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_15_46_27_IMG_2024.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_16_03_16_IMG_2037.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_16_08_47_IMG_2045.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
+            <div class="slide">
+               <img src="../assets/JASON/2026_02_25_15_02_39_IMG_1932.JPG" alt="Wings Junior School campus" class="w-full h-full object-cover">
+            </div>
          </div>
 
          <!-- Slideshow Navigation Dots -->
@@ -150,44 +371,58 @@
 
       <!-- Content -->
       <div class="container mx-auto px-4 text-center relative z-20">
-         <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-4">Our Photo Gallery</h1>
-         <p class="text-xl text-white/90 max-w-2xl mx-auto">Step into the vibrant world of Wings Junior School. Browse moments from school life, events, and our community.</p>
+         <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 tracking-tight">Our Gallery</h1>
+         <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">Scroll, filter, and explore—a mosaic of campus life, celebrations, and everyday joy at Wings.</p>
       </div>
    </section>
 
 
 
-   <!-- Gallery Grid — professional 2025 layout, no category filters -->
-   <section class="py-16 md:py-24 bg-white" id="gallery-section">
-      <div class="container mx-auto px-4">
-         <div class="text-center mb-12 md:mb-16 reveal-on-scroll">
-            <span class="section-badge">Gallery</span>
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-dark mt-2 mb-4">Moments at Wings</h2>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">Browse our collection of photos from school life, events, and community.</p>
+   <!-- Mosaic gallery + filmstrip + filters -->
+   <section class="gallery-page-mosaic relative py-16 md:py-24 overflow-hidden" id="gallery-section">
+      <div class="gallery-mosaic-bg" aria-hidden="true"></div>
+      <div class="container relative z-10 mx-auto px-4">
+         <div class="text-center mb-10 md:mb-14 reveal-on-scroll">
+            <span class="section-badge">Explore</span>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-dark mt-2 mb-4 tracking-tight">Moments at Wings</h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">A curated wall of memories—drag the filmstrip, tap a tile, or use the arrows in the lightbox to browse photos.</p>
          </div>
-         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6" id="gallery-grid">
-            <!-- Only these 11 images — relative paths from pages/ so they load reliably -->
-            <div class="gallery-card reveal-on-scroll cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/img/team/IMG-20241212-WA0005.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll reveal-delay-1 cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/img/team/IMG-20241212-WA0006.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll reveal-delay-2 cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/img/team/IMG-20241212-WA0007.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll reveal-delay-3 cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/img/team/IMG-20241212-WA0008.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll reveal-delay-4 cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/img/team/WhatsApp%20Image%202024-12-12%20at%2015.00.19_4e606234.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll reveal-delay-5 cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/IMG-20250827-WA0005.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/IMG-20250827-WA0007.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/IMG-20250827-WA0011.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/IMG-20250827-WA0012.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
-            <div class="gallery-card reveal-on-scroll cursor-pointer" data-lightbox><div class="aspect-box relative"><img loading="lazy" src="../assets/IMG-20250827-WA0013.jpg" alt="Wings Junior School"><div class="overlay"><span>View</span></div></div></div>
+
+         <div class="reveal-on-scroll mb-2 text-center">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 mb-3">Highlights reel</p>
+         </div>
+         <div id="gallery-filmstrip" class="gallery-filmstrip mb-10 md:mb-12 reveal-on-scroll" role="region" aria-label="Gallery highlights"></div>
+
+         <div id="gallery-filters" class="flex flex-wrap justify-center mb-10 md:mb-12 reveal-on-scroll" role="tablist" aria-label="Filter gallery">
+            <button type="button" class="gallery-filter-pill gallery-filter-pill--active" data-filter="all">All</button>
+            <button type="button" class="gallery-filter-pill" data-filter="image">Photos</button>
+            <button type="button" class="gallery-filter-pill" data-filter="video">Video</button>
+         </div>
+
+         <div id="gallery-grid" class="gallery-mosaic-grid">
+            <!-- Populated by ../assets/js/jason-gallery.js -->
          </div>
       </div>
    </section>
 
-   <!-- Lightbox (fullscreen image view) -->
-   <div id="gallery-lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm p-4 flex-col gap-4" aria-hidden="true">
-      <button type="button" id="lightbox-close" class="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" aria-label="Close">
+   <!-- Lightbox (backdrop separate from stage — keeps image sharp in Chrome/Edge/Safari) -->
+   <div id="gallery-lightbox" class="fixed inset-0 z-[100] hidden flex-col p-0" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Media viewer">
+      <div class="gallery-lightbox-backdrop" data-lightbox-dismiss tabindex="-1" aria-hidden="true"></div>
+      <button type="button" id="lightbox-close" class="absolute top-4 right-4 z-50 w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="Close viewer">
          <i class="fas fa-times text-xl"></i>
       </button>
-      <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl">
-      <p id="lightbox-caption" class="text-white/90 text-center text-sm max-w-lg px-4 hidden"></p>
+      <button type="button" id="lightbox-prev" class="gallery-lightbox-nav gallery-lightbox-nav--prev hidden" aria-label="Previous photo">
+         <i class="fas fa-chevron-left text-lg"></i>
+      </button>
+      <button type="button" id="lightbox-next" class="gallery-lightbox-nav gallery-lightbox-nav--next hidden" aria-label="Next photo">
+         <i class="fas fa-chevron-right text-lg"></i>
+      </button>
+      <div class="gallery-lightbox-stage">
+         <p id="lightbox-counter" class="text-white/70 text-sm hidden"></p>
+         <img id="lightbox-img" alt="" decoding="async">
+         <video id="lightbox-video" class="hidden w-full max-w-full" controls playsinline preload="metadata"></video>
+         <p id="lightbox-caption" class="text-white/90 text-center text-sm max-w-lg px-4 hidden"></p>
+      </div>
    </div>
 
    <!-- CTA Section -->
@@ -265,7 +500,11 @@
       </div>
    </footer>
 
-   <!-- Scripts -->
+   <!-- Scripts — jason-gallery must run before scroll-reveal so new cards are observed -->
+   <script src="../assets/js/page-transitions.js"></script>
+   <script src="../assets/js/jason-media.js"></script>
+   <script>window.JASON_GALLERY_BASE = '../assets/JASON/';</script>
+   <script src="../assets/js/jason-gallery.js"></script>
    <script src="../assets/js/scroll-reveal-2025.js"></script>
    <script src="../assets/js/back-to-top.js"></script>
    <script>
@@ -282,43 +521,6 @@
 
       const header = document.getElementById('main-header');
       if (header) window.addEventListener('scroll', function () { header.classList.toggle('scrolled', window.scrollY > 20); });
-
-      // Lightbox: click gallery image to open fullscreen view
-      document.addEventListener('DOMContentLoaded', function () {
-         var lightbox = document.getElementById('gallery-lightbox');
-         var lightboxImg = document.getElementById('lightbox-img');
-         var lightboxClose = document.getElementById('lightbox-close');
-         if (lightbox && lightboxImg) {
-            var captionEl = document.getElementById('lightbox-caption');
-            document.querySelectorAll('[data-lightbox] img').forEach(function (img) {
-               img.closest('[data-lightbox]').addEventListener('click', function () {
-                  lightboxImg.src = img.src;
-                  lightboxImg.alt = img.alt;
-                  if (captionEl) {
-                     captionEl.textContent = img.alt || '';
-                     captionEl.classList.toggle('hidden', !img.alt);
-                  }
-                  lightbox.classList.remove('hidden');
-                  lightbox.classList.add('flex');
-                  lightbox.setAttribute('aria-hidden', 'false');
-                  document.body.style.overflow = 'hidden';
-               });
-            });
-            function closeLightbox() {
-               lightbox.classList.add('hidden');
-               lightbox.classList.remove('flex');
-               lightbox.setAttribute('aria-hidden', 'true');
-               document.body.style.overflow = '';
-            }
-            if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-            lightbox.addEventListener('click', function (e) {
-               if (e.target === lightbox) closeLightbox();
-            });
-            document.addEventListener('keydown', function (e) {
-               if (e.key === 'Escape') closeLightbox();
-            });
-         }
-      });
 
       // Gallery page slideshow functionality
       let currentGallerySlide = 0;
@@ -378,38 +580,6 @@
 
    </script>
 
-   <!-- Gallery Styles -->
-   <style>
-      @keyframes fadeIn {
-         from {
-            opacity: 0;
-            transform: translateY(-20px);
-         }
-
-         to {
-            opacity: 1;
-            transform: translateY(0);
-         }
-      }
-
-      @keyframes fadeOut {
-         from {
-            opacity: 1;
-            transform: translateY(0);
-         }
-
-         to {
-            opacity: 0;
-            transform: translateY(-20px);
-         }
-      }
-
-      .gallery-item {
-         transition: all 0.3s ease;
-      }
-
-      #gallery-lightbox.flex { display: flex; }
-   </style>
 </body>
 
 </html>

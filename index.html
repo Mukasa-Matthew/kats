@@ -58,6 +58,16 @@
       #homepage-map::before { content: 'Loading map…'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #64748b; font-size: 0.875rem; z-index: 1; }
       #homepage-map.leaflet-container::before { display: none; }
    </style>
+   <script>
+      (function () {
+         try {
+            if (sessionStorage.getItem('wings-pt-out')) {
+               sessionStorage.removeItem('wings-pt-out');
+               document.documentElement.classList.add('wings-pt-pending-enter');
+            }
+         } catch (e) {}
+      })();
+   </script>
 </head>
 
 <body class="font-sans text-slate-800 bg-surface antialiased">
@@ -128,8 +138,12 @@
    <!-- Hero Section — 2025 -->
    <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0">
-         <img src="assets/img/team/background.jpg" alt="School Background" class="w-full h-full object-cover">
-         <div class="absolute inset-0 hero-overlay-2025"></div>
+         <div id="hero-slideshow" class="slideshow-container w-full h-full hero-slideshow-kenburns">
+            <div class="slide active">
+               <img src="assets/img/team/background.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high">
+            </div>
+         </div>
+         <div class="absolute inset-0 hero-overlay-2025 pointer-events-none"></div>
       </div>
 
       <div class="relative z-10 container mx-auto px-4 lg:px-8 text-center text-white">
@@ -165,7 +179,7 @@
    <!-- Features Section -->
    <section class="relative overflow-hidden bg-surface reveal-on-scroll">
       <div class="absolute inset-0 z-0">
-         <div class="slideshow-container w-full h-full">
+         <div id="features-slideshow" class="slideshow-container w-full h-full">
             <div class="slide active">
                <img src="assets/img/team/badge.png" alt="School Badge" class="w-full h-full object-cover opacity-20">
             </div>
@@ -308,8 +322,8 @@
          </div>
 
          <!-- Slideshow Navigation Dots -->
-         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
-            <div class="flex space-x-2" id="slideshow-dots"></div>
+         <div class="absolute bottom-4 left-1/2 z-20 max-w-[min(100%,28rem)] -translate-x-1/2 transform px-2">
+            <div class="flex max-w-full justify-center gap-1.5 overflow-x-auto py-1" id="slideshow-dots"></div>
          </div>
 
          <button class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-2xl bg-white/90 hover:bg-white text-primary flex items-center justify-center shadow-soft transition-all duration-300 hover:scale-105" id="prev-slide" aria-label="Previous">
@@ -383,13 +397,47 @@
                </a>
             </div>
             <div class="relative">
-               <img src="assets/img/team/background1.jpg" alt="Students Learning" class="rounded-3xl shadow-card-hover w-full object-cover">
+               <img src="assets/JASON/2026_02_25_15_12_56_IMG_1965.JPG" alt="Students learning at Wings Junior School" class="rounded-3xl shadow-card-hover w-full object-cover" loading="lazy">
                <div class="absolute -bottom-6 -left-4 bg-white rounded-2xl shadow-card p-6 border border-slate-100">
                   <div class="text-3xl font-display font-bold text-primary">15+</div>
                   <div class="text-sm text-slate-500 font-medium">Years of excellence</div>
                </div>
             </div>
          </div>
+      </div>
+   </section>
+
+   <!-- Campus spotlight — JASON album (bg-dark + theme layers: slate utilities are not in built tailwind.css) -->
+   <section id="jason-spotlight" class="relative py-24 md:py-32 overflow-hidden bg-dark text-white reveal-on-scroll">
+      <div class="jason-spotlight-layers" aria-hidden="true"></div>
+      <div class="container relative z-10 mx-auto px-4 lg:px-8">
+         <div class="mx-auto mb-14 max-w-3xl text-center">
+            <p class="section-badge mx-auto !mb-4 !border-white/20 !bg-white/10 !text-white/90">Fresh from campus</p>
+            <h2 class="font-display mb-4 text-3xl font-bold tracking-tight text-white md:text-5xl">Life at Wings</h2>
+            <p class="text-lg leading-relaxed text-white/75">A living gallery of learning, celebration, and community—captured in recent visits to our school.</p>
+         </div>
+
+         <div class="jason-marquee-shell mb-16 overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-primary/10">
+            <div id="jason-marquee-track" class="jason-marquee-track flex w-max gap-4 py-4" aria-hidden="true"></div>
+         </div>
+
+         <div class="mb-16">
+            <div class="mb-6 flex flex-col items-center justify-between gap-4 sm:flex-row sm:px-2">
+               <h3 class="font-display text-center text-xl font-semibold text-white sm:text-left md:text-2xl">Featured moments</h3>
+               <a href="pages/gallery.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 transition hover:border-white/40 hover:bg-white/10">
+                  Full gallery <i class="fas fa-arrow-right text-xs"></i>
+               </a>
+            </div>
+            <div class="relative mx-auto max-w-4xl">
+               <div id="jason-spotlight-carousel" class="slideshow-container jason-spotlight-carousel-frame w-full overflow-hidden rounded-3xl border border-white/10 shadow-2xl ring-1 ring-white/5"></div>
+            </div>
+         </div>
+
+         <h3 class="font-display mb-4 text-center text-xl font-semibold text-white/90 md:text-2xl">Campus snapshot</h3>
+         <p class="mx-auto mb-10 max-w-2xl text-center text-sm text-white/60">A single frame from life at Wings—see the full gallery for every moment.</p>
+         <figure class="jason-snapshot-figure mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 shadow-2xl ring-1 ring-white/5">
+            <img src="assets/JASON/2026_02_25_15_05_03_IMG_1947.JPG" alt="Students and staff at Wings Junior School" width="1600" height="1000" class="w-full object-cover" loading="lazy">
+         </figure>
       </div>
    </section>
 
@@ -404,15 +452,15 @@
 
          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <a href="pages/culture.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
-               <img src="assets/IMG-20250827-WA0012.jpg" alt="Traditional Attire" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <img src="assets/JASON/2026_02_25_15_44_13_IMG_2019.JPG" alt="Traditional attire and celebration" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Traditional Attire</p></div>
             </a>
             <a href="pages/culture.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
-               <img src="assets/IMG-20250827-WA0013.jpg" alt="Cultural Pride" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <img src="assets/JASON/2026_02_25_15_16_31_IMG_1976.JPG" alt="Cultural pride at school" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Cultural Pride</p></div>
             </a>
             <a href="pages/culture.html" class="group block overflow-hidden rounded-2xl shadow-card border border-slate-100 hover:shadow-card-hover transition-all duration-300">
-               <img src="assets/IMG-20250827-WA0011.jpg" alt="Community" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+               <img src="assets/JASON/2026_02_25_15_42_49_IMG_2012.JPG" alt="Community spirit" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                <div class="p-4 bg-white"><p class="font-semibold text-dark group-hover:text-primary transition-colors">Community Spirit</p></div>
             </a>
          </div>
@@ -567,6 +615,9 @@
    </footer>
 
    <!-- Scripts -->
+   <script src="assets/js/page-transitions.js"></script>
+   <script src="assets/js/jason-media.js"></script>
+   <script src="assets/js/jason-home.js"></script>
    <script src="assets/js/scroll-reveal-2025.js"></script>
    <script src="assets/js/back-to-top.js"></script>
    <script>
@@ -603,14 +654,18 @@
          });
       }
 
-      // Enhanced Slideshow functionality
+      // Enhanced Slideshow functionality (features section only — hero & spotlight use jason-home.js)
       function startSlideshow() {
-         const slides = document.querySelectorAll('.slide');
+         const slideshowRoot = document.getElementById('features-slideshow');
+         if (!slideshowRoot) return;
+         const slides = slideshowRoot.querySelectorAll('.slide');
          const dotsContainer = document.getElementById('slideshow-dots');
          const prevButton = document.getElementById('prev-slide');
          const nextButton = document.getElementById('next-slide');
          let currentSlide = 0;
          let slideshowInterval;
+
+         if (!slides.length || !dotsContainer || !prevButton || !nextButton) return;
 
          // Create navigation dots (2025 pill style)
          slides.forEach((_, index) => {
@@ -667,9 +722,8 @@
          slideshowInterval = setInterval(nextSlide, 4000);
 
          // Pause slideshow on hover
-         const slideshowContainer = document.querySelector('.slideshow-container');
-         slideshowContainer.addEventListener('mouseenter', () => clearInterval(slideshowInterval));
-         slideshowContainer.addEventListener('mouseleave', () => {
+         slideshowRoot.addEventListener('mouseenter', () => clearInterval(slideshowInterval));
+         slideshowRoot.addEventListener('mouseleave', () => {
             slideshowInterval = setInterval(nextSlide, 4000);
          });
       }

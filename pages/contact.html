@@ -40,6 +40,16 @@
       .custom-marker { background: transparent; border: none; }
       .leaflet-popup-content-wrapper { border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
    </style>
+   <script>
+      (function () {
+         try {
+            if (sessionStorage.getItem('wings-pt-out')) {
+               sessionStorage.removeItem('wings-pt-out');
+               document.documentElement.classList.add('wings-pt-pending-enter');
+            }
+         } catch (e) {}
+      })();
+   </script>
 </head>
 
 <body class="font-sans text-slate-800 bg-surface antialiased">
@@ -677,6 +687,7 @@
       // Auto-advance contact slideshow
       setInterval(nextContactSlide, 5000);
    </script>
+   <script src="../assets/js/page-transitions.js"></script>
    <script src="../assets/js/back-to-top.js"></script>
 </body>
 

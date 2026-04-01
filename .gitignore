@@ -39,3 +39,7 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+
+# Large videos — GitHub rejects blobs >100MB; HTTP push also times out on multi‑hundred‑MB packs.
+# Keep .MOV files on disk for local Live Server; upload to YouTube/Drive/hosting for production.
+assets/JASON/*.MOV

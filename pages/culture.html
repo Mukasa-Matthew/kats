@@ -25,6 +25,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="../assets/css/theme-2025.css">
+    <script>
+      (function () {
+        try {
+          if (sessionStorage.getItem('wings-pt-out')) {
+            sessionStorage.removeItem('wings-pt-out');
+            document.documentElement.classList.add('wings-pt-pending-enter');
+          }
+        } catch (e) {}
+      })();
+    </script>
 </head>
 
 <body class="font-sans text-slate-800 bg-surface antialiased">
@@ -496,6 +506,7 @@
         // Auto-advance culture page slideshow
         setInterval(nextCulturePageSlide, 5000);
     </script>
+    <script src="../assets/js/page-transitions.js"></script>
     <script src="../assets/js/back-to-top.js"></script>
 </body>
 

@@ -244,6 +244,27 @@ html {
   pointer-events: none;
 }
 
+/* Inner-page CTA bands (About, Gallery, Contact, Culture, Admission) — class not in built tailwind.css */
+.gradient-bg {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 50%, #991b1b 100%);
+  color: #fff;
+}
+
+.gradient-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 120%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.gradient-bg .container {
+  position: relative;
+  z-index: 1;
+}
+
 /* Icon circles */
 .icon-circle-2025 {
   width: 4rem;
@@ -329,12 +350,149 @@ html {
   object-fit: cover;
 }
 
+/* Ken Burns on active slide (hero / cinematic carousels) */
+@keyframes ken-burns-soft {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.07) translate(-1.2%, -0.6%);
+  }
+}
+
+.hero-slideshow-kenburns .slide.active > img,
+#jason-spotlight-carousel .slide.active > img {
+  animation: ken-burns-soft 14s ease-out forwards;
+  will-change: transform;
+}
+
+/* Life at Wings — dark band + overlays (production tailwind.css omits bg-slate-950 / many slate-* utilities) */
+#jason-spotlight {
+  background-color: var(--text);
+  color: #fff;
+}
+
+.jason-spotlight-layers {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(185, 28, 28, 0.38), transparent 55%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, transparent 42%, var(--text) 100%);
+  opacity: 0.94;
+}
+
+.jason-spotlight-carousel-frame {
+  aspect-ratio: 16 / 10;
+  min-height: 12rem;
+}
+
+.jason-snapshot-figure img {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  display: block;
+}
+
+/* —— Page transitions — subtle editorial fade (no full-screen overlay) —— */
+html.wings-pt-leaving #main-content,
+html.wings-pt-leaving #main-header {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes wings-pt-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#main-content.wings-pt-enter,
+#main-header.wings-pt-enter {
+  animation: wings-pt-page-enter 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.wings-pt-leaving #main-content,
+  html.wings-pt-leaving #main-header {
+    transition-duration: 0.01ms !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  #main-content.wings-pt-enter,
+  #main-header.wings-pt-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* JASON marquee — seamless film strip */
+.jason-marquee-shell {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.jason-marquee-track {
+  animation: jason-marquee-scroll 55s linear infinite;
+}
+
+.jason-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.jason-marquee-item {
+  flex-shrink: 0;
+  width: 17.5rem;
+  height: 11rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s ease;
+}
+
+.jason-marquee-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.jason-marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes jason-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .slideshow-container .slide {
     transition: opacity 0.3s ease;
     transform: none;
   }
   .slideshow-container .slide.active { transform: none; }
+  .hero-slideshow-kenburns .slide.active > img,
+  #jason-spotlight-carousel .slide.active > img {
+    animation: none;
+  }
+  .jason-marquee-track {
+    animation: none;
+  }
 }
 
 /* Form inputs */
