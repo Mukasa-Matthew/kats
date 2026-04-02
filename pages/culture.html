@@ -42,6 +42,7 @@
     <div id="page-preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
         <div class="animate-spin rounded-full h-12 w-12 border-2 border-primary border-t-transparent"></div>
     </div>
+    <script src="../assets/js/preloader-fast.js"></script>
 
     <header id="main-header" class="header-glass sticky top-0 z-40">
         <div class="container mx-auto px-4 lg:px-8">
@@ -437,10 +438,7 @@
 
     <!-- Scripts -->
     <script>
-        // Hide preloader
-        window.addEventListener('load', function () {
-            document.getElementById('page-preloader').style.display = 'none';
-        });
+        // Preloader: ../assets/js/preloader-fast.js
 
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function () {

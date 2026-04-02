@@ -43,12 +43,14 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700;800&display=swap"
       rel="stylesheet">
 
-   <!-- Font Awesome Icons -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <!-- Font Awesome — load without blocking first paint -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-   <!-- Leaflet CSS for OpenStreetMap -->
+   <!-- Leaflet CSS (map only — non-blocking) -->
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'">
+   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""></noscript>
 
    <!-- 2025–2026 theme -->
    <link rel="stylesheet" href="assets/css/theme-2025.css">
@@ -76,6 +78,7 @@
    <div id="page-preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
       <div class="animate-spin rounded-full h-12 w-12 border-2 border-primary border-t-transparent"></div>
    </div>
+   <script src="assets/js/preloader-fast.js"></script>
 
    <!-- Header — 2025 glass style -->
    <header id="main-header" class="header-glass sticky top-0 z-40">
@@ -620,11 +623,10 @@
    <script src="assets/js/jason-home.js"></script>
    <script src="assets/js/scroll-reveal-2025.js"></script>
    <script src="assets/js/back-to-top.js"></script>
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" async></script>
    <script>
-      // Hide preloader
-      window.addEventListener('load', function () {
-         document.getElementById('page-preloader').style.display = 'none';
-      });
+      // Preloader: assets/js/preloader-fast.js (hides on DOMContentLoaded — not after every image)
 
       // Mobile menu toggle
       document.getElementById('mobile-menu-button').addEventListener('click', function () {
@@ -728,8 +730,14 @@
          });
       }
 
-      // Start slideshow when page loads
-      window.addEventListener('load', startSlideshow);
+      function bootFeatureSlideshow() {
+         startSlideshow();
+      }
+      if (document.readyState === 'loading') {
+         document.addEventListener('DOMContentLoaded', bootFeatureSlideshow);
+      } else {
+         bootFeatureSlideshow();
+      }
 
       // Initialize homepage map
       function initHomepageMap() {
@@ -805,16 +813,26 @@
          homepageMap.removeControl(homepageMap.zoomControl);
       }
 
-      // Initialize homepage map when page loads
-      window.addEventListener('load', function () {
-         // Wait a bit for Leaflet to load
-         setTimeout(initHomepageMap, 1000);
-      });
+      function bootHomepageMap() {
+         function tryInit() {
+            if (typeof L === 'undefined') {
+               setTimeout(tryInit, 40);
+               return;
+            }
+            initHomepageMap();
+         }
+         if (window.requestIdleCallback) {
+            window.requestIdleCallback(tryInit, { timeout: 2500 });
+         } else {
+            setTimeout(tryInit, 300);
+         }
+      }
+      if (document.readyState === 'loading') {
+         document.addEventListener('DOMContentLoaded', bootHomepageMap);
+      } else {
+         bootHomepageMap();
+      }
    </script>
-
-   <!-- Leaflet JavaScript for OpenStreetMap -->
-   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 
 </html>
